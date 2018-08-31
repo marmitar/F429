@@ -4,41 +4,41 @@
 \centering
 %% CIRCUITO 1, subfigura 1
 \subfigure[\label{fig:rc_pa}Passa-altas RC]{
-\begin{circuitikz}[scale=1]
+	\begin{circuitikz}[scale=1]
 		\node (Xi) at (0.7,0.7) {$V_1$};
 		\node (Xf) at (3.7,0.7) {$V_2$};
 		\draw [semithick,->] (Xi) -- (0.1,0.1);
 		\draw [semithick,->] (Xf) -- (3.1,0.1);
-		\draw to [resistor, o-o, l_=$R$] ++(2,0)
-			(2,0) to [short,o-o] ++(1,0)
-			(2,0) to [capacitor, o-o, l=$C$] ++(0,-2)
+		\draw to [resistor, o-, l_=$R$] ++(2,0)
+			(2,0) to [short, -o] ++(1,0)
+			(2,0) to [capacitor, -, l=$C$] ++(0,-2)
 			node[ground] {};
-\end{circuitikz}
+	\end{circuitikz}
 }
 %% CIRCUITO 2, subfigura 1
 \subfigure[\label{fig:rc_pb}Passa-baixas RC]{
-\begin{circuitikz}[scale=1]
+	\begin{circuitikz}[scale=1]
 		\node (Xi) at (0.7,0.7) {$V_1$};
 		\node (Xf) at (3.7,0.7) {$V_2$};
 		\draw [semithick,->] (Xi) -- (0.1,0.1);
 		\draw [semithick,->] (Xf) -- (3.1,0.1);
-		\draw to [capacitor, o-o, l_=$C$] ++(2,0)
-			(2,0) to [short,o-o] ++(1,0)
-			(2,0) to [resistor, o-o, l=$R$] ++(0,-2)
+		\draw to [capacitor, o-, l_=$C$] ++(2,0)
+			(2,0) to [short, -o] ++(1,0)
+			(2,0) to [resistor, -, l=$R$] ++(0,-2)
 			node[ground] {};
-\end{circuitikz}
+	\end{circuitikz}
 }
 %% CIRCUITO 3, subfigura 3
 \subfigure[\label{fig:rl_pa}Passa-altas RL]{
-\begin{circuitikz}[scale=1]
+	\begin{circuitikz}[scale=1]
 		\node (Xi) at (0.7,0.7) {$V_1$};
 		\node (Xf) at (3.7,0.7) {$V_2$};
 		\draw [semithick,->] (Xi) -- (0.1,0.1);
 		\draw [semithick,->] (Xf) -- (3.1,0.1);
-		\draw to [resistor, o-o, l_=$R$] ++(2,0)
-			(2,0) to [short,o-o] ++(1,0)
-			(2,0) to [inductor, o-o, l=$L$] ++(0,-2)
+		\draw to [resistor, o-, l_=$R$] ++(2,0)
+			(2,0) to [short, -o] ++(1,0)
+			(2,0) to [inductor, -, l=$L$] ++(0,-2)
 			node[ground] {};
-\end{circuitikz}
+	\end{circuitikz}
 }
 \caption{Filtros simplesinhos.}
