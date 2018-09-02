@@ -38,7 +38,8 @@ for group, options in params.items():
     plt.rc(group, **options)
 # print(plt.rcParams)  # para ajustes
 
-# cores para o diagrama de bode
+
+# controle de cores para o diagrama de bode
 colors = {
     'tx': {
         'th_min': "darkkhaki",
@@ -54,6 +55,53 @@ colors = {
 
 
 # %%
+def bode_plots(mode, title="Diagrama de Bode"):
+    """Inicializa o pyplot para o diagrama de Bode."""
+
+    if mode == "both":
+        fig, (xmit, phase) = plt.subplots(2, 1)
+
+    elif mode == "transmission":
+        fig, xmit = plt.subplots(1, 1)
+        phase = None
+
+    elif mode == "phase":
+        fig, phase = plt.subplots(1, 1)
+        xmit = None
+
+    else:
+        raise ValueError("Invalid mode")
+
+    fig.suptitle(title)
+
+    return xmit, phase
+
+
+def plot_threshold(plot, threshold, color, legend=None):
+    """Monta uma linha de limite em algum valor."""
+
+    th_line = plot.axhline(threshold, c=colors[color[0]][color[1]])
+    if legend:
+        plot.legend((th_line,), (legend,))
+
+
+def plot_interpolation(plot, x, y, color, size=None, level=1, legend=None):
+    """Monta uma interpolação (logarítmica) para os valores coletados."""
+
+    if not size:
+        size = len(x)
+
+    x_log = np.log10(x)
+    x_new = np.logspace(x_log.min(), x_log.max(), size)
+
+    tck = interpolate.splrep(x, y, k=level)
+    y_new = interpolate.splev(x_new, tck)
+
+    ipol, = plot.semilogx(x_new, y_new, c=colors[color]['ipol'])
+    if legend:
+        plot.legend((ipol,), (legend,))
+
+
 def bode_diagram(
         csv_name, mode="both", _freq="frequencia",
         _phase="fase", _xmit="T_dB"
@@ -68,75 +116,45 @@ def bode_diagram(
 
     data = np.genfromtxt(csv_name, delimiter=',', names=True)
 
-    # inicialização das figuras
-    if mode == "both":
-        fig, (xmit, phase) = plt.subplots(2, 1)
-    elif mode == "transmission":
-        fig, xmit = plt.subplots(1, 1)
-        phase = None
-    elif mode == "phase":
-        fig, phase = plt.subplots(1, 1)
-        xmit = None
-    else:
-        raise ValueError("Invalid mode")
-
-    fig.suptitle("Diagrama de Bode")
-
-    # valore para interpolação
-    sample_amount = 60
-    spline_level = 5
-    freq_log = np.log10(data[_freq])
-    freq_new = np.logspace(freq_log.min(), freq_log.max(), sample_amount)
+    xmit, phase = bode_plots(mode)
 
     if xmit:
-        # interpolação da transmitância
-        tck = interpolate.splrep(data[_freq], data[_xmit], k=spline_level)
-        xmit_new = interpolate.splev(freq_new, tck)
-
         # limite de filtragem teórico
-        threshold = -3.0  # dB
-        xmit.axhline(threshold, color=colors['tx']['th_min'])
+        plot_threshold(xmit, -3., ('tx', 'th_min'))
         # limite de filtragem aceito
-        threshold = -10.0  # dB
-        xmit.axhline(threshold, color=colors['tx']['thold'])
+        plot_threshold(xmit, -10., ('tx', 'thold'))
 
         # pontos coletados
         xmit.semilogx(
             data[_freq],
             data[_xmit],
             '.',
-            color=colors['tx']['pts']
+            c=colors['tx']['pts']
         )
 
-        # valores interpolados
-        xmit.semilogx(freq_new, xmit_new, color=colors['tx']['ipol'])
+        plot_interpolation(xmit, data[_freq], data[_xmit], 'tx')
 
         xmit.set_ylabel(r"Transmitância \textbf{[dB]}")
         if mode != "both":
             xmit.set_xlabel(r"Frequência \textbf{[Hz]}")
 
     if phase:
-        # interpolação da fase
-        tck = interpolate.splrep(data[_freq], data[_phase], k=spline_level)
-        phase_new = interpolate.splev(freq_new, tck)
-
         # coletados
         phase.semilogx(
             data[_freq],
             data[_phase],
             'o',
-            color=colors['ph']['pts']
+            c=colors['ph']['pts']
         )
 
-        # interpolados
-        phase.semilogx(freq_new, phase_new, color=colors['ph']['ipol'])
+        plot_interpolation(phase, data[_freq], data[_phase], color='ph')
 
         phase.set_xlabel(r"Frequência \textbf{[Hz]}")
         phase.set_ylabel(r"Fase [graus]")
 
 
-bode_diagram("plotter/parte2.csv", mode="both")
-plt.savefig("figuras/parte2.pgf")
-
-bode_diagram("plotter/parte1.csv", mode="both")
+bode_diagram("plotter/parte1.csv")
 plt.savefig("figuras/parte1.pgf")
+
+bode_diagram("plotter/parte2.csv")
+plt.savefig("figuras/parte2.pgf")
