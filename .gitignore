@@ -7,3 +7,4 @@
 *.out*
 *.pdf*
 *.sync*
+__pycache__
