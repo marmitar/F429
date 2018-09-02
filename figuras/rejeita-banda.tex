@@ -1,17 +1,14 @@
-\begin{circuitikz}[scale=1]
-  	\draw (0,0)		% linha superior
-    node(Gi) {}
-    to [short, o-o] ++(3,0)
-    to ++(0,0) node(Go) {};
-    \draw (2,0)	    % conexão
-    to [capacitor, l=$C$] ++(0,2)
-    to [inductor, l=$L$] ++(0,2);
-    \draw (0, 4)    % linha inferior
-    node(Vi) {}
-    to [resistor, o-, l=$R$] ++(2,0)
-    to [short, -o] ++(1,0)
-    to ++(0,0) node(Vo) {};
-    \draw			% tensões
-    (Gi) to [open,v=$V_{in}$] (Vi)
-    (Go) to [open,v=$V_{out}$] (Vo);
+\begin{circuitikz}[scale=1.2]
+
+  \draw (0, 2)    % linha superior
+  node[above] {$V_{in}$}
+  to [resistor, o-, l=$R$] ++(2,0)
+  to [short, -o] ++(1,0)
+  to ++(0,0) node[above] {$V_{out}$};
+
+  \draw (2,0)	    % aterramento
+  node[ground] {}
+  to [inductor, l_=$L$] ++(0,1)
+  to [capacitor, l_=$C$] ++(0,1);
+
 \end{circuitikz}
