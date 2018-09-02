@@ -48,9 +48,10 @@ colors = {
         'ipol': "darkorange",
     },
     'ph': {
-        'pts': "steelblue",
-        'ipol': "darkorange"
-    }
+        'pts': "slateblue",
+        'ipol': "mediumseagreen"
+    },
+    'th_cmap': "tab20b"
 }
 
 
@@ -77,19 +78,37 @@ def bode_plots(mode, title="Diagrama de Bode"):
     return xmit, phase
 
 
-def plot_threshold(plot, threshold, color, legend=None):
+def plot_threshold(horizontal, plot, threshold, color=None, legend=None):
     """Monta uma linha de limite em algum valor."""
 
-    th_line = plot.axhline(threshold, c=colors[color[0]][color[1]])
+    if color:
+        color = colors[color[0]][color[1]]
+    else:
+        cmap = plt.get_cmap(colors['th_cmap'])
+        color = cmap(np.random.rand())
+
+    if horizontal:
+        line = plot.axhline(threshold, c=color)
+    else:
+        line = plot.axvline(threshold, c=color)
+
     if legend:
-        plot.legend((th_line,), (legend,))
+        plot.legend((line,), (legend,))
 
 
-def plot_interpolation(plot, x, y, color, size=None, level=1, legend=None):
+def plot_interpolation(
+        plot, x, y, color,
+        size=80, level=5,
+        mask=None, legend=None
+    ): # noqa
     """Monta uma interpolação (logarítmica) para os valores coletados."""
 
     if not size:
         size = len(x)
+
+    if mask:
+        y = y[x >= mask]
+        x = x[x >= mask]
 
     x_log = np.log10(x)
     x_new = np.logspace(x_log.min(), x_log.max(), size)
@@ -104,7 +123,7 @@ def plot_interpolation(plot, x, y, color, size=None, level=1, legend=None):
 
 def bode_diagram(
         csv_name, mode="both", _freq="frequencia",
-        _phase="fase", _xmit="T_dB"
+        _phase="fase", _xmit="T_dB", mask=None, marks=None
     ): # noqa
     """
         Faz o diagram de Bode a partir de um arquivo CSV. O modo do diagrama
@@ -119,20 +138,22 @@ def bode_diagram(
     xmit, phase = bode_plots(mode)
 
     if xmit:
+        if marks:
+            for mark in marks:
+                plot_threshold(False, xmit, mark)
+
         # limite de filtragem teórico
-        plot_threshold(xmit, -3., ('tx', 'th_min'))
+        plot_threshold(True, xmit, -3, ('tx', 'th_min'))
         # limite de filtragem aceito
-        plot_threshold(xmit, -10., ('tx', 'thold'))
+        plot_threshold(True, xmit, -10, ('tx', 'thold'))
 
         # pontos coletados
         xmit.semilogx(
-            data[_freq],
-            data[_xmit],
-            '.',
-            c=colors['tx']['pts']
+            data[_freq], data[_xmit],
+            '.', c=colors['tx']['pts']
         )
 
-        plot_interpolation(xmit, data[_freq], data[_xmit], 'tx')
+        plot_interpolation(xmit, data[_freq], data[_xmit], 'tx', mask=mask)
 
         xmit.set_ylabel(r"Transmitância \textbf{[dB]}")
         if mode != "both":
@@ -141,20 +162,21 @@ def bode_diagram(
     if phase:
         # coletados
         phase.semilogx(
-            data[_freq],
-            data[_phase],
-            'o',
-            c=colors['ph']['pts']
+            data[_freq], data[_phase],
+            '.', c=colors['ph']['pts']
         )
 
-        plot_interpolation(phase, data[_freq], data[_phase], color='ph')
+        plot_interpolation(
+            phase, data[_freq], data[_phase],
+            color='ph', mask=mask
+        )
 
         phase.set_xlabel(r"Frequência \textbf{[Hz]}")
-        phase.set_ylabel(r"Fase [graus]")
+        phase.set_ylabel(r"Fase \textbf{[graus]}")
 
 
-bode_diagram("plotter/parte1.csv")
+bode_diagram("plotter/parte1.csv", mask=50, marks=[120, 8000])
 plt.savefig("figuras/parte1.pgf")
 
-bode_diagram("plotter/parte2.csv")
+bode_diagram("plotter/parte2.csv", marks=[100, 1000, 10000])
 plt.savefig("figuras/parte2.pgf")
