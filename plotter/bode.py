@@ -41,6 +41,7 @@ for group, options in params.items():
 # cores para o diagrama de bode
 colors = {
     'tx': {
+        'th_min': "darkkhaki",
         'thold': "rosybrown",
         'pts': "steelblue",
         'ipol': "darkorange",
@@ -92,8 +93,11 @@ def bode_diagram(
         tck = interpolate.splrep(data[_freq], data[_xmit], k=spline_level)
         xmit_new = interpolate.splev(freq_new, tck)
 
-        # limite de filtragem
+        # limite de filtragem teórico
         threshold = -3.0  # dB
+        xmit.axhline(threshold, color=colors['tx']['th_min'])
+        # limite de filtragem aceito
+        threshold = -10.0  # dB
         xmit.axhline(threshold, color=colors['tx']['thold'])
 
         # pontos coletados
@@ -133,3 +137,6 @@ def bode_diagram(
 
 bode_diagram("plotter/parte2.csv", mode="both")
 plt.savefig("figuras/parte2.pgf")
+
+bode_diagram("plotter/parte1.csv", mode="both")
+plt.savefig("figuras/parte1.pgf")
