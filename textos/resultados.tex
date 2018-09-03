@@ -35,7 +35,7 @@
     		\bfseries Frequência & \bfseries Transmitância (dB) \\
         \midrule
         	\csvreader[head to column names]{dados/amostra.csv}{}{
-            	\SI[exponent-to-prefix=true,round-mode=places,round-precision=2,scientific-notation=engineering,zero-decimal-to-integer=false]{\freq}{\hertz} &
+            	\SI[exponent-to-prefix=true,round-mode=places,round-precision=0,scientific-notation=engineering,zero-decimal-to-integer=false]{\freq}{\hertz} &
                 \tablenum[round-mode=places,round-precision=2]{\TdB} \\
 			}
 	\end{tabular}
