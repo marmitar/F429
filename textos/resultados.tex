@@ -1,5 +1,4 @@
 \todo[color=cyan]{Muito colororidos os gráficos, ainda vou arrumar. Também tenho que ver a ordem dos desenhos.}
-
 \todo[inline,color=yellow]{Apresentar os resultados experimentais, inclua eventuais medidas de caracterização de componente (e.g., resistências, resistência parasítica do indutor). Avalie se é melhor apresentar o dado na forma de tabela ou gráfico. Note que um diagrama de Bode não deve ser apresentado na forma de tabela, enquanto que os valores de resistência utilizados poderiam utilizar este formato de apresentação.
 }
 
@@ -28,9 +27,16 @@
 \end{figure}
 
 \begin{center}
-	\begin{tabular}{l|c}
-    	\bfseries Frequência (Hz) & \bfseries Transmitância (dB)
-     	\csvreader[head to column names]{dados/amostra.csv}{}
-      	{\\\hline \freq & \TdB}
+	\begin{tabular}{c|c}
+%     	\bfseries Frequência (Hz) & \bfseries Transmitância (dB) \\
+%         \midrule\csvreader[head to column names]{dados/amostra.csv}{}
+%       	{\num{\freq} & \TdB \\\hline}
+		\toprule
+    		\bfseries Frequência & \bfseries Transmitância (dB) \\
+        \midrule
+        	\csvreader[head to column names]{dados/amostra.csv}{}{
+            	\SI[exponent-to-prefix=true,round-mode=places,round-precision=2,scientific-notation=engineering,zero-decimal-to-integer=false]{\freq}{\hertz} &
+                \tablenum[round-mode=places,round-precision=2]{\TdB} \\
+			}
 	\end{tabular}
 \end{center}

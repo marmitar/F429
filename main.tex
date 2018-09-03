@@ -1,6 +1,6 @@
 %% estilo do documento e medidas
-\documentclass[a4paper]{article}
-\usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\documentclass[a4paper,portuguese,utf8x,T1]{article}
+\usepackage[top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
 \renewcommand{\baselinestretch}{1.2}
 
 %% linguagem e fontes
@@ -9,17 +9,21 @@
 \usepackage[portuguese]{babel}
 
 %% pacotes para desenhos e ambientes diferenciadas
-\usepackage{amsmath}									% símbolos e ambientes matemáticos
-\usepackage{siunitx}
-\usepackage{booktabs}									% tabelas melhoradas
-\usepackage[table,xcdraw]{xcolor}						% mais cores
-\usepackage{graphicx}									% figuras melhoradas
-\usepackage{subcaption}									%   ||        ||
-\usepackage[colorinlistoftodos,portuguese]{todonotes}	% notas para a escrita
-\usepackage[colorlinks=true]{hyperref}					% links
-\usepackage{circuitikz}									% desenho de circuitos
-\usepackage{csvsimple}									% dados em CSV
+\usepackage{amsmath}						% símbolos e ambientes matemáticos
+\usepackage{siunitx}						% unidades do SI
+\usepackage{booktabs}						% tabelas melhoradas
+\usepackage[table,xcdraw]{xcolor}			% mais cores
+\usepackage{graphicx}						% figuras melhoradas
+\usepackage{subcaption}						%   ||        ||
+\usepackage[colorinlistoftodos]{todonotes}	% notas para a escrita
+\usepackage[colorlinks=true]{hyperref}		% links
+\usepackage{circuitikz}						% desenho de circuitos
+\usepackage{csvsimple}						% dados em CSV
+\usepackage{cleveref}						% referenciamento melhorado
 
+% setup para usar o cleveref com o subcaption
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+    \renewcommand\thesubfigure{(\alph{subfigure})}
 
 %% dados do relatório
 \title{
