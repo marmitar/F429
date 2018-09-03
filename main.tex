@@ -1,6 +1,7 @@
 %% estilo do documento e medidas
 \documentclass[a4paper]{article}
 \usepackage[a4paper,top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\renewcommand{\baselinestretch}{1.2}
 
 %% linguagem e fontes
 \usepackage[utf8x]{inputenc}
@@ -9,6 +10,7 @@
 
 %% pacotes para desenhos e ambientes diferenciadas
 \usepackage{amsmath}									% símbolos e ambientes matemáticos
+\usepackage{siunitx}
 \usepackage{booktabs}									% tabelas melhoradas
 \usepackage[table,xcdraw]{xcolor}						% mais cores
 \usepackage{graphicx}									% figuras melhoradas
@@ -46,21 +48,25 @@
 	\end{abstract}
 
 	%%%%% Introdução %%%%%
-	\section{Introdução}
+	\section{Introdução} \label{introducao}
 		\input{textos/introducao}
 
 
 	%%%%% Materiais e Métodos %%%%%
-	\section{Materiais e Métodos}
+	\section{Materiais e Métodos} \label{metodos}
     	\input{textos/metodos}
 
 	%%%%% Resultados %%%%%
-	\section{Resultados}
+	\section{Resultados} \label{resultados}
 	 	\input{textos/resultados}
 
 	%%%%% Discussão %%%%%
-	\section{Discussão}
+	\section{Discussão} \label{discussao}
     	\input{textos/discussao}
+    
+    %%%%% Conclusão %%%%%
+    \section{Conclusão} \label{conclusao}
+    	\input{textos/conclusao}
 
 	%%%%%% Referências %%%%%%
 	\bibliographystyle{alpha}
