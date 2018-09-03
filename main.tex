@@ -10,8 +10,8 @@
 
 %% pacotes para desenhos e ambientes diferenciadas
 \usepackage{amsmath}						% símbolos e ambientes matemáticos
-\usepackage{siunitx}						% unidades do SI
 \usepackage{booktabs}						% tabelas melhoradas
+\usepackage{datatool}						% recolhimento de dados
 \usepackage[table,xcdraw]{xcolor}			% mais cores
 \usepackage{graphicx}						% figuras melhoradas
 \usepackage{subcaption}						%   ||        ||
@@ -20,6 +20,18 @@
 \usepackage{circuitikz}						% desenho de circuitos
 \usepackage{csvsimple}						% dados em CSV
 \usepackage{cleveref}						% referenciamento melhorado
+\usepackage{multirow}						% tabelas de multíplas linhas ou colunas
+
+% unidades do SI
+\usepackage[
+	exponent-to-prefix = true,
+	round-mode = places,
+	round-precision = 0,
+	scientific-notation = engineering,
+	zero-decimal-to-integer = false,
+	separate-uncertainty,
+	multi-part-units = single
+]{siunitx}
 
 % setup para usar o cleveref com o subcaption
 \captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
@@ -55,7 +67,6 @@
 	\section{Introdução} \label{introducao}
 		\input{textos/introducao}
 
-
 	%%%%% Materiais e Métodos %%%%%
 	\section{Materiais e Métodos} \label{metodos}
     	\input{textos/metodos}
@@ -67,7 +78,7 @@
 	%%%%% Discussão %%%%%
 	\section{Discussão} \label{discussao}
     	\input{textos/discussao}
-    
+
     %%%%% Conclusão %%%%%
     \section{Conclusão} \label{conclusao}
     	\input{textos/conclusao}

@@ -6,37 +6,9 @@
 	\todo[inline,color=yellow]{Caso apresente dados que serão usados para ajustar um modelo teórico, aproveite o espaço do gráfico para apresentar o ajuste. Faça uma breve discussão do ajuste,incluindo os parâmetros extraídos e equações utilizadas (evite deduções nesta parte). Sendo seu experimento constituído de mais de um conjunto de dados, utilize subseções.
 }
 
-\begin{figure}
-	\centering
-	% \includegraphics[width=0.9\textwidth]{figuras/diagrama-bode.png}
-	\input{figuras/parte1.pgf}
-	\caption{
-    	Diagrama de Bode
-	}
-    \label{fig:diag}
-\end{figure}
+\input{figuras/resistencias}
 
-\begin{figure}
-	\centering
-	% \includegraphics[width=0.9\textwidth]{figuras/diagrama-bode.png}
-	\input{figuras/parte2.pgf}
-	\caption{
-    	Diagrama de Bode
-	}
-    \label{fig:bode}
-\end{figure}
+\input{figuras/bode-rc}
+\input{figuras/bode-rlc}
 
-\begin{center}
-	\begin{tabular}{c|c}
-%     	\bfseries Frequência (Hz) & \bfseries Transmitância (dB) \\
-%         \midrule\csvreader[head to column names]{dados/amostra.csv}{}
-%       	{\num{\freq} & \TdB \\\hline}
-		\toprule
-    		\bfseries Frequência & \bfseries Transmitância (dB) \\
-        \midrule
-        	\csvreader[head to column names]{dados/amostra.csv}{}{
-            	\SI[exponent-to-prefix=true,round-mode=places,round-precision=0,scientific-notation=engineering,zero-decimal-to-integer=false]{\freq}{\hertz} &
-                \tablenum[round-mode=places,round-precision=2]{\TdB} \\
-			}
-	\end{tabular}
-\end{center}
+\input{figuras/transmitancias}
