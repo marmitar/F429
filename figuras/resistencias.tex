@@ -1,23 +1,20 @@
-\DTLloaddb{resistencias}{dados/resistencias.csv}
-
 \begin{table}
     \centering
 	\begin{tabular}{ccc}
 		\toprule\toprule
-        \multirow{2}*{\bfseries Componente} &
+        \multirow{2}*{\bfseries Dispositivo} &
             \multicolumn{2}{c}{\bfseries Resistência} \\
         % \cmidrule{2-3}
         & \bfseries{Nominal} & \bfseries{Medida}
-        \DTLforeach*{resistencias}{
-            \componente=componente,\nominal=nominal,
-            \erron=erron,\medido=medido,\errom=errom}
-        {
-            \DTLiffirstrow{\\\midrule}{\\}
 
-            \componente &
-            \SI{\nominal (\erron)}{\ohm} &
-            \SI{\medido (\errom)}{\ohm}
-        }
+        \\\midrule
+            Resistor &
+            \SI{100 (20)}{\ohm} &
+            \SI{90 (10)}{\ohm} \\
+
+            Indutor &
+            --- &
+            \SI{10 (5)}{\ohm}
         \\\bottomrule\bottomrule
 	\end{tabular}
 

@@ -1,0 +1,26 @@
+\DTLloaddb{transmitancias}{dados/transmitancias_RC.csv}
+
+\begin{table}
+	\centering
+	\sisetup{table-figures-uncertainty = 1}
+	\begin{tabular}{cccc}
+		\toprule\toprule
+			\multirow{2}*{\bfseries Frequência}
+				& \multicolumn{2}{c}{\bfseries Tensão pico a pico}
+				& \multirow{2}*{\bfseries Transmitância}
+			\\ & $V_{in}$ & $V_{out}$ &
+
+		\DTLforeach*{transmitancias}{\freq=freq,\T=TdB,\Terr=TdBerr,\Vi=V1,\Vo=V2,\Vierr=V1err,\Voerr=V2err}{
+			\DTLiffirstrow{\\\midrule}{\\}
+
+			\SI{\freq}{\hertz} & \SI{\Vi(\Vierr)}{\volt} & \SI{\Vo(\Voerr)}{\volt} &
+			\SI[exponent-to-prefix=false,
+				scientific-notation=false]
+				{\T(\Terr)}{\decibel}
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Tabela inútil}
+	\label{tab:inutil}
+\end{table}
