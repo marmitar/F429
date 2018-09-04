@@ -3,7 +3,7 @@ import decimal as dec
 
 
 class CSVManager(list):
-    def __init__(self, csv_name, figures=2):
+    def __init__(self, csv_name, figures=1):
         super().__init__(self)
 
         self.csv_name = csv_name
