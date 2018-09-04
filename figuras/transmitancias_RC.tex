@@ -10,13 +10,13 @@
 				& \multirow{2}*{\bfseries Transmitância}
 			\\ & $V_{in}$ & $V_{out}$ &
 
-		\DTLforeach*{transmitancias}{\freq=freq,\T=TdB,\Terr=TdBerr,\Vi=V1,\Vo=V2,\Vierr=V1err,\Voerr=V2err}{
+		\DTLforeach*{transmitancias}{\f=freq, \df=freqerr,\T=TdB,\dT=TdBerr,\Vi=V1,\Vo=V2,\dVi=V1err,\dVo=V2err}{
 			\DTLiffirstrow{\\\midrule}{\\}
 
-			\SI{\freq}{\hertz} & \SI{\Vi(\Vierr)}{\volt} & \SI{\Vo(\Voerr)}{\volt} &
+			\SI{\f(\df)}{\hertz} & \SI{\Vi(\dVi)}{\volt} & \SI{\Vo(\dVo)}{\volt} &
 			\SI[exponent-to-prefix=false,
 				scientific-notation=false]
-				{\T(\Terr)}{\decibel}
+				{\T(\dT)}{\decibel}
 		}
         \\\bottomrule\bottomrule
 	\end{tabular}

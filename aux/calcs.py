@@ -29,19 +29,19 @@ class CSVManager(list):
 
         return value, error
 
-    def keyerror(self, key, error_calc):
+    def keyerror(self, key, error_calc, *args, **kwargs):
         for row in self:
-            row[key + 'err'] = error_calc(row)
+            row[key + 'err'] = error_calc(row, *args, **kwargs)
 
-    def rowapply(self, operation):
+    def rowapply(self, operation, *args, **kwargs):
         for row in self:
-            row = operation(row)
+            row = operation(row, *args, **kwargs)
 
-    def rowfilter(self, test):
+    def rowfilter(self, test, *args, **kwargs):
         to_remove = list()
 
         for i in range(len(self)):
-            if test(self[i]):
+            if test(self[i], *args, **kwargs):
                 to_remove.append(i)
 
         for j in range(len(to_remove)):
@@ -66,43 +66,11 @@ class CSVManager(list):
         self.close()
 
 
-def V_error(channel, vertical_position=0, div=1):
-    key = 'V' + str(channel)
+##################
+# Data functions #
+##################
 
-    def err_calc(row):
-        err_percent = dec.Decimal('0.3') / dec.Decimal(100)
-        V_adj = row[key] + dec.Decimal(vertical_position)
-        div_err = dec.Decimal('.2') * dec.Decimal(div) / dec.Decimal(1000)
-        fixed_err = dec.Decimal(7) / dec.Decimal(1000)
-
-        return err_percent * V_adj + div_err + fixed_err
-
-    return err_calc
-
-
-def T_error(input_channel, output_channel):
-    V_in = 'V' + str(input_channel)
-    V_out = 'V' + str(output_channel)
-
-    def err_calc(row):
-        errs = [row[V+'err']/row[V] for V in (V_in, V_out)]
-        err = sum([err**2 for err in errs]).sqrt()
-        err_adj = dec.Decimal(20)/dec.Decimal(10).ln()
-
-        return err_adj * err
-
-    return err_calc
-
-
-def setup_names(row):
-    changes = [
-        ('frequencia', 'freq'),
-        ('Terr', 'TdBerr'),
-        ('T_dB', 'TdB'),
-        ('Vpp1', 'V1'),
-        ('Vpp2', 'V2')
-    ]
-
+def setup_names(row, changes):
     for old, new in changes:
         if old in row.keys():
             row[new] = row[old]
@@ -110,18 +78,71 @@ def setup_names(row):
     return row
 
 
-def remove_fields(row):
-    fields = ['fase', 'T']
-
+def remove_fields(row, fields):
     for field in fields:
         if field in row.keys():
             del row[field]
 
 
-with CSVManager("dados/transmitancias_RC.csv") as amostra:
-    amostra.rowapply(setup_names)
-    amostra.rowapply(remove_fields)
+###################
+# Error functions #
+###################
 
-    amostra.keyerror('V1', V_error(1))
-    amostra.keyerror('V2', V_error(2))
-    amostra.keyerror('TdB', T_error(1, 2))
+def V_error(row, channel, vertical_position=0, div=1):
+    key = 'V' + str(channel)
+
+    # 3% of adjusted value
+    err_percent = dec.Decimal('0.3') / dec.Decimal(100)
+    # ajusted values: V + position
+    V_adj = row[key] + dec.Decimal(vertical_position)
+    # scale division error
+    div_err = dec.Decimal('.2') * dec.Decimal(div) / dec.Decimal(1000)
+    # fixed error
+    fix_err = dec.Decimal(7) / dec.Decimal(1000)
+
+    return err_percent * V_adj + div_err + fix_err
+
+
+def T_error(row, input_channel, output_channel):
+    V_in = 'V' + str(input_channel)
+    V_out = 'V' + str(output_channel)
+
+    # error as: 20/ln(10) * sqrt of SUM[i,o](Verr/V)
+    # derived from: T (in dB) = 20 log10(Vo/Vi)
+    errs = [row[V+'err']/row[V] for V in (V_in, V_out)]
+    err = sum([err**2 for err in errs]).sqrt()
+    err_adj = dec.Decimal(20)/dec.Decimal(10).ln()
+
+    return err_adj * err
+
+
+def freq_error(row, ppm=100):
+    row['freq']
+
+    err_ppm = dec.Decimal(ppm)/dec.Decimal('10')**6   # 100 ppm
+    fix_err = dec.Decimal(1) * dec.Decimal('10')**-6  # 1 uHz
+
+    return row['freq'] * err_ppm + fix_err
+
+
+######################
+# Managing data file #
+######################
+
+with CSVManager("dados/transmitancias_RC.csv") as amostra:
+    new_names = [
+        ('frequencia', 'freq'),
+        ('Terr', 'TdBerr'),
+        ('T_dB', 'TdB'),
+        ('Vpp1', 'V1'),
+        ('Vpp2', 'V2')
+    ]
+    fields = ['fase', 'T']
+
+    amostra.rowapply(setup_names, new_names)
+    amostra.rowapply(remove_fields, fields)
+
+    amostra.keyerror('V1', V_error, 1)
+    amostra.keyerror('V2', V_error, 2)
+    amostra.keyerror('TdB', T_error, 1, 2)
+    amostra.keyerror('freq', freq_error)
