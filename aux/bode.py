@@ -2,6 +2,7 @@
 import numpy as np
 from scipy import interpolate
 from matplotlib import pyplot as plt
+import seaborn as sns
 
 params = {
     'axes': {
@@ -34,27 +35,14 @@ params = {
         'minor.visible': True
     }
 }
-plt.style.use('ggplot')
+
+current_palette = sns.color_palette()
+sns.palplot(current_palette)
+sns.set(style="whitegrid")
+
 for group, options in params.items():
     plt.rc(group, **options)
 # print(plt.rcParams)  # para ajustes
-
-
-# controle de cores para o diagrama de bode
-colors = {
-    'tx': {
-        'pts': "steelblue",
-        'ipol': "darkorange",
-    },
-    'ph': {
-        'pts': "slateblue",
-        'ipol': "mediumseagreen"
-    },
-    'th': {
-        'h': "rosybrown",
-        'v': "darkgray"
-    }
-}
 
 
 # %%
@@ -90,9 +78,9 @@ def plot_threshold(horizontal, plot, threshold, **kwargs):
         legend = None
 
     if horizontal:
-        line = plot.axhline(threshold, c=colors['th']['h'], **kwargs)
+        line = plot.axhline(threshold, c="rosybrown", **kwargs)
     else:
-        line = plot.axvline(threshold, c=colors['th']['v'], **kwargs)
+        line = plot.axvline(threshold, c="darkgray", **kwargs)
 
     if legend:
         plot.legend((line,), (legend,))
@@ -128,7 +116,7 @@ def plot_interpolation(plot, x, y, color, **kwargs):
     tck = interpolate.splrep(x, y, k=5, **kwargs)
     y_new = interpolate.splev(x_new, tck)
 
-    ipol, = plot.semilogx(x_new, y_new, c=colors[color]['ipol'])
+    ipol, = plot.semilogx(x_new, y_new)
 
     if legend:
         plot.legend((ipol,), (legend,))
@@ -153,16 +141,16 @@ def bode_diagram(csv_name, **kwargs):
     if xmit_plt:
         if 'marks' in kwargs:
             for mark in kwargs['marks']:
-                plot_threshold(False, xmit_plt, mark, ls='--', alpha=.7)
+                plot_threshold(False, xmit_plt, mark, ls='--', alpha=.8)
             del kwargs['marks']
 
         # limite de filtragem teórico
-        plot_threshold(True, xmit_plt, -3, alpha=.4)
+        plot_threshold(True, xmit_plt, -3, alpha=.5)
         # limite de filtragem aceito
         plot_threshold(True, xmit_plt, -10, alpha=.7)
 
         # pontos coletados
-        xmit_plt.semilogx(freq, xmit, '.', c=colors['tx']['pts'])
+        xmit_plt.semilogx(freq, xmit, '.')
 
         # aproximação
         plot_interpolation(xmit_plt, freq, xmit, 'tx', **kwargs)
@@ -173,7 +161,7 @@ def bode_diagram(csv_name, **kwargs):
 
     if phase_plt:
         # coletados
-        phase_plt.semilogx(freq, phase, '.', c=colors['ph']['pts'])
+        phase_plt.semilogx(freq, phase, '.')
 
         # aproximação
         plot_interpolation(phase_plt, freq, phase, 'ph', **kwargs)
