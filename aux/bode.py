@@ -1,5 +1,6 @@
 # %%
 import numpy as np
+import pandas as pd
 from scipy import interpolate
 from matplotlib import pyplot as plt
 import seaborn as sns
@@ -14,8 +15,12 @@ params = {
         'titlesize': 'x-large'
     },
     'font': {
-        'family': 'serif',
-        'serif': ['Computer Modern']
+        'family': 'serif'
+    },
+    'legend': {
+        'fontsize': 10,
+        'labelspacing': .1,
+        'handlelength': 1.5
     },
     'text': {
         'usetex': True,
@@ -27,19 +32,18 @@ params = {
         ]
     },
     'xtick': {
-        'color': '#000000',
+        'color': 'dimgray',
+        'bottom': True,
         'minor.visible': True
     },
     'ytick': {
-        'color': '#000000',
+        'color': 'dimgray',
+        'left': True,
         'minor.visible': True
     }
 }
 
-current_palette = sns.color_palette()
-sns.palplot(current_palette)
-sns.set(style="whitegrid")
-
+sns.set(style="darkgrid", palette="muted", color_codes=True)
 for group, options in params.items():
     plt.rc(group, **options)
 # print(plt.rcParams)  # para ajustes
@@ -62,8 +66,7 @@ def bode_plots(**kwargs):
     else:
         fig, (xmit, phase) = plt.subplots(2, 1)
 
-    if 'title' in kwargs:
-        fig.suptitle(kwargs['title'])
+    fig.suptitle("Diagrama de Bode")
 
     return xmit, phase
 
@@ -83,7 +86,8 @@ def plot_threshold(horizontal, plot, threshold, **kwargs):
         line = plot.axvline(threshold, c="darkgray", **kwargs)
 
     if legend:
-        plot.legend((line,), (legend,))
+        lines, labels = plot.get_legend_handles_labels()
+        plot.legend(tuple(lines)+(line,), tuple(labels)+(legend,), loc=0)
 
 
 def plot_interpolation(plot, x, y, color, **kwargs):
@@ -116,13 +120,34 @@ def plot_interpolation(plot, x, y, color, **kwargs):
     tck = interpolate.splrep(x, y, k=5, **kwargs)
     y_new = interpolate.splev(x_new, tck)
 
-    ipol, = plot.semilogx(x_new, y_new)
+    ipol, = plot.semilogx(x_new, y_new, c=color)
 
     if legend:
         plot.legend((ipol,), (legend,))
 
 
-def bode_diagram(csv_name, **kwargs):
+def plot_ticks(plot, base, min_v, max_v, points, minor):
+    """Desenha marcadores"""
+
+    full_range = max_v - min_v
+
+    step = full_range/points/base
+    step = np.round(step)
+
+    base = base * step
+
+    lower = np.arange(0, min_v, -base)
+    lower = lower[lower.nonzero()]
+    lower = np.flip(lower)
+
+    upper = np.arange(0, max_v, base)
+    upper = upper[upper.nonzero()]
+
+    full_range = np.concatenate((lower, [0], upper))
+    plot.set_yticks(full_range, minor)
+
+
+def bode_diagram(csv_file, **kwargs):
     """
         Faz o diagram de Bode a partir de um arquivo CSV. O modo do diagrama
         pode ser "transmission", "phase" or "both".
@@ -131,49 +156,60 @@ def bode_diagram(csv_name, **kwargs):
         arquivo com os dados e as cores a serem impressas.
     """
 
-    data = np.genfromtxt(csv_name, delimiter=',', names=True)
+    data = pd.read_csv(csv_file)
     freq, phase, xmit = data['frequencia'], data['fase'], data['T_dB']
 
     xmit_plt, phase_plt = bode_plots(**kwargs)
-    if 'title' in kwargs:
-        del kwargs['title']
 
     if xmit_plt:
         if 'marks' in kwargs:
-            for mark in kwargs['marks']:
+            marks = kwargs['marks']
+            plot_threshold(
+                False, xmit_plt, marks.pop(),
+                ls='--', alpha=.8, label="Frequências de controle"
+            )
+            for mark in marks:
                 plot_threshold(False, xmit_plt, mark, ls='--', alpha=.8)
             del kwargs['marks']
 
         # limite de filtragem teórico
         plot_threshold(True, xmit_plt, -3, alpha=.5)
         # limite de filtragem aceito
-        plot_threshold(True, xmit_plt, -10, alpha=.7)
+        plot_threshold(True, xmit_plt, -10,
+                       alpha=.8, label='Limite de filtragem')
+        xmit_plt.legend(loc='right')
 
         # pontos coletados
-        xmit_plt.semilogx(freq, xmit, '.')
+        xmit_plt.plot(freq, xmit, '.', c='C0')
 
         # aproximação
-        plot_interpolation(xmit_plt, freq, xmit, 'tx', **kwargs)
+        plot_interpolation(xmit_plt, freq, xmit, 'C1', **kwargs)
 
         xmit_plt.set_ylabel(r"Transmitância \textbf{[dB]}")
         if not phase_plt:
             xmit_plt.set_xlabel(r"Frequência \textbf{[Hz]}")
 
+        # marcadores
+        plot_ticks(xmit_plt, 5, min(xmit), max(xmit), 5, False)
+        plot_ticks(xmit_plt, 2.5, min(xmit), max(xmit), 10, True)
+
     if phase_plt:
         # coletados
-        phase_plt.semilogx(freq, phase, '.')
+        phase_plt.plot(freq, phase, '.', c='C4')
 
         # aproximação
-        plot_interpolation(phase_plt, freq, phase, 'ph', **kwargs)
+        plot_interpolation(phase_plt, freq, phase, 'C8', **kwargs)
 
         phase_plt.set_xlabel(r"Frequência \textbf{[Hz]}")
         phase_plt.set_ylabel(r"Fase \textbf{[graus]}")
 
+        # marcadores
+        plot_ticks(phase_plt, 15, min(phase), max(phase), 5, False)
+        plot_ticks(phase_plt, 5, min(phase), max(phase), 15, True)
 
-title = "Diagrama de Bode"
 
-bode_diagram("dados/parte1.csv", xmask=50, marks=[120, 8000], title=title)
+bode_diagram("dados/parte1.csv", xmask=50, marks=[120, 8000])
 plt.savefig("figuras/parciais/parte1.pgf")
 
-bode_diagram("dados/parte2.csv", marks=[100, 1000, 10000], title=title)
+bode_diagram("dados/parte2.csv", marks=[100, 1000, 10000])
 plt.savefig("figuras/parciais/parte2.pgf")
