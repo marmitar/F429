@@ -4,6 +4,10 @@ from scipy import interpolate
 from matplotlib import pyplot as plt
 import seaborn as sns
 
+# ignore wrong font warnings
+import warnings
+warnings.filterwarnings('ignore', 'findfont', UserWarning, 'matplotlib')
+
 params = {
     'axes': {
         'labelcolor': '#000000',
@@ -37,7 +41,7 @@ params = {
 }
 
 current_palette = sns.color_palette()
-sns.palplot(current_palette)
+# sns.palplot(current_palette)
 sns.set(style="whitegrid")
 
 for group, options in params.items():
@@ -84,6 +88,14 @@ def plot_threshold(horizontal, plot, threshold, **kwargs):
 
     if legend:
         plot.legend((line,), (legend,))
+
+
+def plot_ticks(plot, base, min_v, max_v, points=5, **kwargs):
+    """"""
+
+    full_range = max_v - min_v
+
+
 
 
 def plot_interpolation(plot, x, y, color, **kwargs):
@@ -141,7 +153,8 @@ def bode_diagram(csv_name, **kwargs):
     if xmit_plt:
         if 'marks' in kwargs:
             for mark in kwargs['marks']:
-                plot_threshold(False, xmit_plt, mark, ls='--', alpha=.8)
+                plot_threshold(False, xmit_plt, mark, ls='--',
+                               alpha=.8, legend=str(mark))
             del kwargs['marks']
 
         # limite de filtragem teórico
@@ -159,6 +172,9 @@ def bode_diagram(csv_name, **kwargs):
         if not phase_plt:
             xmit_plt.set_xlabel(r"Frequência \textbf{[Hz]}")
 
+        ticks = np.arange(0, min(xmit), -5)
+        xmit_plt.set_yticks(np.flip(ticks))
+
     if phase_plt:
         # coletados
         phase_plt.semilogx(freq, phase, '.')
@@ -168,6 +184,12 @@ def bode_diagram(csv_name, **kwargs):
 
         phase_plt.set_xlabel(r"Frequência \textbf{[Hz]}")
         phase_plt.set_ylabel(r"Fase \textbf{[graus]}")
+
+        lower = np.arange(0, min(phase), -15.)
+        lower = lower[lower.nonzero()]
+        lower = np.flip(lower)
+        upper = np.arange(0, max(phase), 15.)
+        phase_plt.set_yticks(np.concatenate((lower, upper)))
 
 
 title = "Diagrama de Bode"
