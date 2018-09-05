@@ -7,6 +7,5 @@
 *.out*
 *.pdf*
 *.sync*
-*.dvi*
 __pycache__
 .vscode
