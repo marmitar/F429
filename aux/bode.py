@@ -90,6 +90,14 @@ def plot_threshold(horizontal, plot, threshold, **kwargs):
         plot.legend((line,), (legend,))
 
 
+def plot_ticks(plot, base, min_v, max_v, points=5, **kwargs):
+    """"""
+
+    full_range = max_v - min_v
+
+
+
+
 def plot_interpolation(plot, x, y, color, **kwargs):
     """Monta uma interpolação (logarítmica) para os valores coletados."""
 
