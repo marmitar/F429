@@ -1,0 +1,26 @@
+\DTLloaddb{transmitancias}{dados/transmitancias_RC.csv}
+
+\begin{table}[H]
+	\centering
+	\sisetup{table-figures-uncertainty = 1}
+	\begin{tabular}{cccc}
+		\toprule\toprule
+			\multirow{2}*{\bfseries Frequência}
+				& \multicolumn{2}{c}{\bfseries Tensão pico a pico}
+				& \multirow{2}*{\bfseries Transmitância}
+			\\ & $V_{in}$ & $V_{out}$ &
+
+		\DTLforeach*{transmitancias}{\f=freq, \df=freqerr,\T=TdB,\dT=TdBerr,\Vi=V1,\Vo=V2,\dVi=V1err,\dVo=V2err}{
+			\DTLiffirstrow{\\\midrule}{\\}
+
+			\SI{\f(\df)}{\hertz} & \SI{\Vi(\dVi)}{\volt} & \SI{\Vo(\dVo)}{\volt} &
+			\SI[exponent-to-prefix=false,
+				scientific-notation=false]
+				{\T(\dT)}{\decibel}
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Incertezas para alguns pontos-chave do circuito RC}
+	\label{tab:transmitancia}
+\end{table}
