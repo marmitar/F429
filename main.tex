@@ -1,13 +1,21 @@
 %% estilo do documento e medidas
-\documentclass[a4paper,portuguese,utf8x,T1]{article}
+\documentclass[a4paper,portuguese,utf8,T1]{article}
 \usepackage[top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
 \usepackage{indentfirst}
 \renewcommand{\baselinestretch}{1.2}
 
 %% linguagem e fontes
-\usepackage[utf8x]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[portuguese]{babel}
+
+%% referencias
+\usepackage[
+    backend = biber,
+    style = alphabetic,
+    sorting = ynt
+]{biblatex}
+\addbibresource{dados/referencias.bib}
 
 %% pacotes para desenhos e ambientes diferenciadas
 \usepackage{amsmath}						% símbolos e ambientes matemáticos
@@ -23,6 +31,7 @@
 \usepackage{cleveref}						% referenciamento melhorado
 \usepackage{multirow}						% tabelas de multíplas linhas ou colunas
 \usepackage{float}							% fixar posição de figuras
+\usepackage{csquotes}                       % aspas melhoradas
 
 % unidades do SI
 \usepackage[
@@ -85,7 +94,8 @@
     	\input{textos/conclusao}
 
 	%%%%%% Referências %%%%%%
-	\bibliographystyle{alpha}
-	\bibliography{dados/referencias}
+% 	\bibliographystyle{alpha}
+% 	\bibliography{dados/referencias}
+    \printbibliography
 
 \end{document}

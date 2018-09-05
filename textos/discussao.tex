@@ -7,5 +7,7 @@
 \subsection{Passa-banda}
 
   Para o circuito passa-banda, como pode ser visto no diagrama de Bode em \ref{fig:boderlc}, as frequências que não deveriam sofrer  atenuação (\SI{100}{\hertz} e \SI{10}{\kilo\hertz}) sofreram queda de sinal desprezível, \SI[scientific-notation=false]{-0,16(8)}{\decibel} e \SI[scientific-notation=false]{-0,15(8)}{\decibel}, respectivamente. Assim, mostrando que o filtro se adequa bem para a passagem destas frequências. Em relação à frequência que deveria ser filtrada (\SI{1}{\kilo\hertz}), é possível identificar que a queda de sinal foi intensa. Analisando um ponto próximo, \SI{1047,6(1)}{\hertz} cujo ganho foi de \SI{-20,7(4)}{\decibel}, evidencia que o filtro atua bem nas proximidades desta frequência. Observando o diagrama \ref{fig:boderlc} também é visível que a frequência central ocorreu bem próximo do desejado para a filtragem, mostrando a eficacia do circuito.
-
+  
   Em relação ao diagrama de fase \ref{fig:boderlc}, é possível observar que aproximadamente em \SI{1}{\kilo\hertz}, a diferença de fase se anula, mostrado que para frequências próximas o circuito se encontrava em ressonância, assim como esperado. Novamente reforçando que para \SI{1}{\kilo\hertz} a queda de sinal seria grande.
+  
+  È importante salientar que, durante o processamento dos dados, as incertezas foram calculadas seguindo os padrões do \texttt{GUM}~\cite{ref:gum} e seguindo as especificações dos aparelhos utilizados nas medições.
