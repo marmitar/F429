@@ -74,20 +74,10 @@ def bode_plots(**kwargs):
 def plot_threshold(horizontal, plot, threshold, **kwargs):
     """Monta uma linha de limite em algum valor."""
 
-    if 'legend' in kwargs:
-        legend = kwargs['legend']
-        del kwargs['legend']
-    else:
-        legend = None
-
     if horizontal:
-        line = plot.axhline(threshold, c="rosybrown", **kwargs)
+        plot.axhline(threshold, c="rosybrown", **kwargs)
     else:
-        line = plot.axvline(threshold, c="darkgray", **kwargs)
-
-    if legend:
-        lines, labels = plot.get_legend_handles_labels()
-        plot.legend(tuple(lines)+(line,), tuple(labels)+(legend,), loc=0)
+        plot.axvline(threshold, c="darkgray", **kwargs)
 
 
 def plot_interpolation(plot, x, y, color, **kwargs):
@@ -106,12 +96,6 @@ def plot_interpolation(plot, x, y, color, **kwargs):
         y = y[y >= kwargs['ymask']]
         del kwargs['ymask']
 
-    if 'legend' in kwargs:
-        legend = kwargs['legend']
-        del kwargs['legend']
-    else:
-        legend = None
-
     x_log = np.log10(x)
     x_new = np.logspace(x_log.min(), x_log.max(), **kwargs)
 
@@ -120,10 +104,7 @@ def plot_interpolation(plot, x, y, color, **kwargs):
     tck = interpolate.splrep(x, y, k=5, **kwargs)
     y_new = interpolate.splev(x_new, tck)
 
-    ipol, = plot.semilogx(x_new, y_new, c=color)
-
-    if legend:
-        plot.legend((ipol,), (legend,))
+    plot.semilogx(x_new, y_new, c=color)
 
 
 def plot_ticks(plot, base, min_v, max_v, points, minor):
