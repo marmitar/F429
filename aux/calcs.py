@@ -107,7 +107,7 @@ def T_error(row, input_channel, output_channel):
     V_in = 'V' + str(input_channel)
     V_out = 'V' + str(output_channel)
 
-    # error as: 20/ln(10) * sqrt of SUM[i,o]((Verr/V)**2)
+    # error as: 20/ln(10) * sqrt of SUM[i,o](Verr/V)
     # derived from: T (in dB) = 20 log10(Vo/Vi)
     errs = [row[V+'err']/row[V] for V in (V_in, V_out)]
     err = sum([err**2 for err in errs]).sqrt()
@@ -125,31 +125,24 @@ def freq_error(row, ppm=100):
     return row['freq'] * err_ppm + fix_err
 
 
-#######################
-# Managing data files #
-#######################
-if __name__ == "__main__":
+######################
+# Managing data file #
+######################
 
-    path = "dados/"
-    files = [
-        "transmitancias_RC.csv"
+with CSVManager("dados/transmitancias_RC.csv") as amostra:
+    new_names = [
+        ('frequencia', 'freq'),
+        ('Terr', 'TdBerr'),
+        ('T_dB', 'TdB'),
+        ('Vpp1', 'V1'),
+        ('Vpp2', 'V2')
     ]
+    fields = ['fase', 'T']
 
-    for file in files:
-        with CSVManager(path + file) as amostra:
-            new_names = [
-                ('frequencia', 'freq'),
-                ('Terr', 'TdBerr'),
-                ('T_dB', 'TdB'),
-                ('Vpp1', 'V1'),
-                ('Vpp2', 'V2')
-            ]
-            fields = ['fase', 'T']
+    amostra.rowapply(setup_names, new_names)
+    amostra.rowapply(remove_fields, fields)
 
-            amostra.rowapply(setup_names, new_names)
-            amostra.rowapply(remove_fields, fields)
-
-            amostra.keyerror('V1', V_error, 1)
-            amostra.keyerror('V2', V_error, 2)
-            amostra.keyerror('TdB', T_error, 1, 2)
-            amostra.keyerror('freq', freq_error)
+    amostra.keyerror('V1', V_error, 1)
+    amostra.keyerror('V2', V_error, 2)
+    amostra.keyerror('TdB', T_error, 1, 2)
+    amostra.keyerror('freq', freq_error)
