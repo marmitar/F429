@@ -128,21 +128,26 @@ def freq_error(row, ppm=100):
 ######################
 # Managing data file #
 ######################
+files = [
+    "dados/transmitancias_RC.csv",
+    "dados/transmitancias_RLC.csv",
+]
 
-with CSVManager("dados/transmitancias_RC.csv") as amostra:
-    new_names = [
-        ('frequencia', 'freq'),
-        ('Terr', 'TdBerr'),
-        ('T_dB', 'TdB'),
-        ('Vpp1', 'V1'),
-        ('Vpp2', 'V2')
-    ]
-    fields = ['fase', 'T']
+new_names = [
+    ('frequencia', 'freq'),
+    ('Terr', 'TdBerr'),
+    ('T_dB', 'TdB'),
+    ('Vpp1', 'V1'),
+    ('Vpp2', 'V2')
+]
+fields = ['fase', 'T']
 
-    amostra.rowapply(setup_names, new_names)
-    amostra.rowapply(remove_fields, fields)
+for file in files:
+    with CSVManager(file) as amostra:
+        amostra.rowapply(setup_names, new_names)
+        amostra.rowapply(remove_fields, fields)
 
-    amostra.keyerror('V1', V_error, 1)
-    amostra.keyerror('V2', V_error, 2)
-    amostra.keyerror('TdB', T_error, 1, 2)
-    amostra.keyerror('freq', freq_error)
+        amostra.keyerror('V1', V_error, 1)
+        amostra.keyerror('V2', V_error, 2)
+        amostra.keyerror('TdB', T_error, 1, 2)
+        amostra.keyerror('freq', freq_error)
