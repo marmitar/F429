@@ -8,5 +8,7 @@
 *.pdf*
 *.sync*
 *.dvi*
+*.bcf*
+*.run*
 __pycache__
 .vscode
