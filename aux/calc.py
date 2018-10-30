@@ -38,4 +38,4 @@ if __name__ == "__main__":
         'alpha': [alpha, alpha],
         'ar': [0, 0]
     })
-    coefs.to_csv("coefs.csv", index=False)
+    coefs.to_csv("../dados/coefs.csv", index=False)
