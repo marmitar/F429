@@ -10,7 +10,7 @@
 
 ## Geral
 
-- [Recomendações 1](http://www.ggte.unicamp.br/eam/mod/forum/discuss.php?d=39435)
+- [Recomendações 1](http://www.ggte.unicamp.br/eam/mod/page/view.php?id=167196)
 
 - [Recomendações 2](http://www.ggte.unicamp.br/eam/mod/forum/discuss.php?d=39435)
 
