@@ -79,7 +79,7 @@ def leg_make(canvas, loc_curv, loc_comp):
     handles = canvas.get_legend_handles_labels()
 
     # curv_leg = canvas.legend(handles[0][:2], handles[1][:2], loc=loc_curv)
-    canvas.legend(handles[0], handles[1], title="Lâmpadas", loc=loc_curv)
+    canvas.legend(handles[0][1:], handles[1][1:], title="Lâmpadas", loc=loc_curv)
 
     # canvas.add_artist(curv_leg)
 
