@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 import seaborn as sns
 sns.set(context='paper', style='darkgrid', palette='muted', font='serif', color_codes=True)
 
+
 params = {
     'axes': {
         'labelcolor': '#000000',
@@ -53,6 +54,7 @@ params = {
 for group, options in params.items():
     plt.rc(group, **options)
 
+
 def plot_approx(ax, min_v, max_v, num, func, func_r=None, alpha=.6):
     x = np.linspace(min_v, max_v, num=num)
 
@@ -76,10 +78,10 @@ def plot_data(canvas, dados, x, y, func, func_exp=None, n=100):
 def leg_make(canvas, loc_curv, loc_comp):
     handles = canvas.get_legend_handles_labels()
 
-    curv_leg = canvas.legend(handles[0][:2], handles[1][:2], loc=loc_curv)
-    canvas.legend(handles[0][3:], handles[1][3:], title="Compostos", loc=loc_comp)
+    # curv_leg = canvas.legend(handles[0][:2], handles[1][:2], loc=loc_curv)
+    canvas.legend(handles[0], handles[1], title="Lâmpadas", loc=loc_curv)
 
-    canvas.add_artist(curv_leg)
+    # canvas.add_artist(curv_leg)
 
 
 def plot_lin(canvas, dados, exp, real=None):
@@ -90,7 +92,7 @@ def plot_lin(canvas, dados, exp, real=None):
 
     leg_make(canvas, 'lower right', 'upper left')
 
-    canvas.set_title(r"Linearização")
+    canvas.set_title("Linearização da fórmula de Cauchy")
 
 
 def plot_cauchy(canvas, dados, exp, real=None):
@@ -101,7 +103,7 @@ def plot_cauchy(canvas, dados, exp, real=None):
 
     leg_make(canvas, 'upper right', 'lower left')
 
-    canvas.set_title(r"Cauchy")
+    canvas.set_title("Relação para o espectrômetro")
 
 
 def func_gen(coefs):
@@ -121,19 +123,19 @@ if __name__ == "__main__":
     coefs = pd.read_csv("../dados/coefs.csv", index_col='id')
 
     lin_exp, cau_exp = func_gen(coefs.loc['exp'])
-    lin_real, cau_real = func_gen(coefs.loc['real'])
+    # lin_real, cau_real = func_gen(coefs.loc['real'])
 
 
     fig = plt.figure()
     canvas = plt.axes()
 
-    plot_lin(canvas, desvio, lin_exp, lin_real)
+    plot_lin(canvas, desvio, lin_exp)
     fig.savefig('reta.png')
     fig.savefig('../figuras/plots/reta.pgf')
 
     fig.clear()
     canvas = plt.axes()
 
-    plot_cauchy(canvas, desvio, cau_exp, cau_real)
+    plot_cauchy(canvas, desvio, cau_exp)
     fig.savefig('cauchy.png')
     fig.savefig('../figuras/plots/cauchy.pgf')

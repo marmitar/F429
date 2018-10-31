@@ -3,10 +3,30 @@ import pandas as pd
 from scipy import stats
 
 
+_print = print
+def print(*args, **kwargs):
+    _print()
+    _print(*args, **kwargs)
+
+
+sin = lambda deg: np.sin(np.deg2rad(deg))
+cos = lambda deg: np.cos(np.deg2rad(deg))
+
+
 def n(desvio, alpha):
-    sup = np.sin(np.deg2rad((alpha+desvio)/2))
-    inf = np.sin(np.deg2rad(alpha/2))
+    sup = sin((alpha+desvio)/2)
+    inf = sin(alpha/2)
     return sup/inf
+
+
+def nr(a, dm, ar, dmr):
+
+    dnda = sin(dm/2) / sin(a/2)**2
+    dnddm2 = (cos(a+dm)+1) / (cos(a)-1)
+
+    nr2 = (ar * dnda)**2 - dmr**2 * dnddm2
+
+    return np.sqrt(nr2)/2
 
 
 if __name__ == "__main__":
@@ -39,3 +59,6 @@ if __name__ == "__main__":
         'ar': [0, 0]
     })
     coefs.to_csv("../dados/coefs.csv", index=False)
+
+    err = ((.5)/60)/np.sqrt(3)
+    print("dn:", nr(60, 37, err, err))
