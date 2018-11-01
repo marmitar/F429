@@ -169,5 +169,10 @@ if __name__ == "__main__":
     _, _, _, cauchy = equations(coefs)
     resols = cauchy(desvio['dm'])
     l_r = min(resols)
+    print(f"res. spec.: {l_r:.1f}")
 
+    # coefs['dmr'] = 0.0
+    _, _, _, cauchy = equations(coefs)
+    resols = cauchy(desvio['dm'])
+    l_r = min(resols)
     print(f"res. spec.: {l_r:.1f}")

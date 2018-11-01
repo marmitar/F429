@@ -5,7 +5,7 @@
 *.fls*
 *.log*
 *.out*
-*.pdf*
+main.pdf
 *.sync*
 *.dvi*
 *.bcf*

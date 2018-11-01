@@ -35,6 +35,9 @@
 \usepackage{csquotes}                       % aspas melhoradas
 \usepackage{textcomp}
 \usepackage{gensymb}
+\usepackage{amssymb}
+\usepackage{titling}
+\usepackage{mhchem}
 
 % unidades do SI
 \usepackage[
@@ -51,8 +54,18 @@
 %     \renewcommand\thesubfigure{(\alph{subfigure})}
 
 %% dados do relatório
+\def\svgwidth{.25\columnwidth}
+\pretitle{
+	\begin{center}
+	\Huge
+	\input{figuras/IFGW.pdf_tex}
+	\\[\bigskipamount]
+}
+\posttitle{
+	\end{center}
+}
 \title{
-	\Huge Experimento 4 			\\
+	Experimento 4 			\\
     \Large Física Experimental IV
 }
 \author{
