@@ -1,10 +1,12 @@
+import json
 import numpy as np
 import pandas as pd
+
+from calc import equations
 
 from matplotlib import pyplot as plt
 import seaborn as sns
 sns.set(context='paper', style='darkgrid', palette='muted', font='serif', color_codes=True)
-
 
 params = {
     'axes': {
@@ -55,24 +57,25 @@ for group, options in params.items():
     plt.rc(group, **options)
 
 
-def plot_approx(ax, min_v, max_v, num, func, func_r=None, alpha=.6):
+def plot_approx(ax, num, func, func_r=None, alpha=.6):
+    min_v, max_v = ax.get_xlim()
+
     x = np.linspace(min_v, max_v, num=num)
+    y = func(x)
 
     if func_r:
-        sns.lineplot(x=x, y=func(x), color='k', ax=ax, alpha=alpha, label="Regressão")
-        sns.lineplot(x=x, y=func_r(x), color='k', ax=ax, alpha=alpha/2, label="Esperado")
+        err = func_r(x)
+        sns.lineplot(x=x, y=y, color='k', ax=ax, alpha=alpha)
+        ax.fill_between(x, y-err, y+err, color='k', alpha=alpha/4)
     else:
-        sns.lineplot(x=x, y=func(x), color='k', ax=ax, alpha=alpha)
+        sns.lineplot(x=x, y=y, color='k', ax=ax, alpha=alpha)
+
+    ax.set_xlim(min_v, max_v)
 
 
-def plot_data(canvas, dados, x, y, func, func_exp=None, n=100):
-    pad = dados[x].std()/3
-    min_v = dados[x].min()-pad
-    max_v = dados[x].max()+pad
-
-    plot_approx(canvas, min_v, max_v, n, func, func_exp)
-
-    sns.scatterplot(x=x, y=y, hue='composto', data=dados, hue_order=['Cd', 'Na', 'Hg', 'He'], ax=canvas)
+def plot_data(canvas, dados, x, y, func, func_exp=None, n=200):
+    sns.scatterplot(x=x, y=y, hue='composto', data=dados, hue_order=['Cd', 'Na', 'Hg', 'He'], ax=canvas, zorder=10)
+    plot_approx(canvas, n, func, func_exp)
 
 
 def leg_make(canvas, loc_curv, loc_comp):
@@ -106,36 +109,25 @@ def plot_cauchy(canvas, dados, exp, real=None):
     canvas.set_title("Relação para o espectrômetro")
 
 
-def func_gen(coefs):
-    A, B, a = coefs[['A', 'B', 'alpha']]
-
-    sin = lambda deg: np.sin(np.deg2rad(deg))
-    n = lambda dm: sin((a+dm)/2) / sin(a/2)
-
-    lin = lambda il2: A + B * il2
-    cauchy = lambda dm: np.sqrt(B / (n(dm) - A)) * 1000
-
-    return lin, cauchy
-
 
 if __name__ == "__main__":
     desvio = pd.read_csv("../dados/desvio.csv", index_col='id')
-    coefs = pd.read_csv("../dados/coefs.csv", index_col='id')
+    with open("../dados/coefs.json", mode='r') as fcoefs:
+        coefs = json.load(fcoefs)
 
-    lin_exp, cau_exp = func_gen(coefs.loc['exp'])
-    # lin_real, cau_real = func_gen(coefs.loc['real'])
+    lin_exp, lin_err, cau_exp, cau_err = equations(coefs)
 
 
     fig = plt.figure()
     canvas = plt.axes()
 
-    plot_lin(canvas, desvio, lin_exp)
-    fig.savefig('reta.png')
+    plot_lin(canvas, desvio, lin_exp, lin_err)
+    fig.savefig('reta.png', dpi=200)
     fig.savefig('../figuras/plots/reta.pgf')
 
     fig.clear()
     canvas = plt.axes()
 
-    plot_cauchy(canvas, desvio, cau_exp)
-    fig.savefig('cauchy.png')
+    plot_cauchy(canvas, desvio, cau_exp, cau_err)
+    fig.savefig('cauchy.png', dpi=200)
     fig.savefig('../figuras/plots/cauchy.pgf')
