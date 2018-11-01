@@ -90,23 +90,23 @@ def leg_make(canvas, loc_curv, loc_comp):
 def plot_lin(canvas, dados, exp, real=None):
     plot_data(canvas, dados, 'il2', 'n', exp, real, 200)
 
-    canvas.set_xlabel(r"$1/\lambda^2$ $\left[\SI{}{\micro\meter^{-2}}\right]$")
+    canvas.set_xlabel(r"$1/\lambda^2$ $\left[\si{\micro\meter^{-2}}\right]$")
     canvas.set_ylabel(r"Índice de refração")
 
     leg_make(canvas, 'lower right', 'upper left')
 
-    canvas.set_title("Linearização da fórmula de Cauchy")
+    canvas.set_title("Regressão para a fórmula de Cauchy")
 
 
 def plot_cauchy(canvas, dados, exp, real=None):
     plot_data(canvas, dados, 'dm', 'lambda', exp, real, 200)
 
     canvas.set_xlabel(r"Desvio mínimo [\degree]")
-    canvas.set_ylabel(r"Comprimento de onde [\SI{}{\nano\meter}]")
+    canvas.set_ylabel(r"Comprimento de onda [\si{\nano\meter}]")
 
     leg_make(canvas, 'upper right', 'lower left')
 
-    canvas.set_title("Relação para o espectrômetro")
+    canvas.set_title("Dispersão aproximada pela fórmula de Cauchy")
 
 
 
@@ -131,3 +131,16 @@ if __name__ == "__main__":
     plot_cauchy(canvas, desvio, cau_exp, cau_err)
     fig.savefig('cauchy.png', dpi=200)
     fig.savefig('../figuras/plots/cauchy.pgf')
+
+
+    coefs['dmr'], coefs['ar'] = 0.0, 0.0
+    _, _, _, cau_err = equations(coefs)
+
+
+    l, r = canvas.get_xlim()
+    x = np.linspace(l, r, num=200)
+    y, err = cau_exp(x), cau_err(x)
+    canvas.fill_between(x, y-err, y+err, color='k', alpha=.6/4)
+
+    fig.savefig('cauchyr.png', dpi=200)
+    # fig.savefig('../figuras/plots/cauchy.pgf')

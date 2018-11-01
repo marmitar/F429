@@ -826,7 +826,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.782406in,y=0.394002in,,top]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont \(\displaystyle 1/\lambda^2\) \(\displaystyle \left[\SI{}{\micro\meter^{-2}}\right]\)}%
+\pgftext[x=2.782406in,y=0.394002in,,top]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont \(\displaystyle 1/\lambda^2\) \(\displaystyle \left[\si{\micro\meter^{-2}}\right]\)}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.756811in}{0.683119in}}{\pgfqpoint{4.051189in}{1.982907in}}%
@@ -2220,7 +2220,7 @@
 \definecolor{textcolor}{rgb}{0.150000,0.150000,0.150000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.782406in,y=2.749359in,,base]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Linearização da fórmula de Cauchy}%
+\pgftext[x=2.782406in,y=2.749359in,,base]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Regressão para a fórmula de Cauchy}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%

@@ -1440,7 +1440,7 @@
 \definecolor{textcolor}{rgb}{0.000000,0.000000,0.000000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=0.273036in,y=1.614090in,,bottom,rotate=90.000000]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Comprimento de onde [\SI{}{\nano\meter}]}%
+\pgftext[x=0.273036in,y=1.614090in,,bottom,rotate=90.000000]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Comprimento de onda [\si{\nano\meter}]}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfpathrectangle{\pgfqpoint{0.636577in}{0.562153in}}{\pgfqpoint{4.104093in}{2.103873in}}%
@@ -2057,7 +2057,7 @@
 \definecolor{textcolor}{rgb}{0.150000,0.150000,0.150000}%
 \pgfsetstrokecolor{textcolor}%
 \pgfsetfillcolor{textcolor}%
-\pgftext[x=2.688623in,y=2.749359in,,base]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Relação para o espectrômetro}%
+\pgftext[x=2.688623in,y=2.749359in,,base]{\color{textcolor}\rmfamily\fontsize{9.600000}{11.520000}\selectfont Dispersão aproximada pela fórmula de Cauchy}%
 \end{pgfscope}%
 \begin{pgfscope}%
 \pgfsetbuttcap%

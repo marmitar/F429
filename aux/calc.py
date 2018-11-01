@@ -78,7 +78,7 @@ def lst_sq(x, y, yerr):
 
 def degerr(res, par):
     res = res/(2 * sqrt(6))
-    par = par/sqrt(3)
+    par = 2 * par/(2 * sqrt(3))
 
     return sqrt(res**2 + par**2)
 

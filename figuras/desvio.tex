@@ -1,0 +1,28 @@
+\DTLloaddb{desvios}{dados/desvio.csv}
+
+\begin{table}[H]
+	\centering
+	\sisetup{
+		table-figures-uncertainty = 1
+	}
+	\begin{tabular}{cccc}
+		\toprule\toprule
+            {\bfseries Lâmpada}
+				& {\bfseries Comprimento de onda}
+                & {\bfseries Desvio mínimo}
+                & {\bfseries Índice de refração}
+
+		\DTLforeach*{desvios}{\cp=composto, \lm=lambda,\dv=dm_d,\dm=dm_m,\n=n,\nr=nr}{
+			\DTLiffirstrow{\\\midrule}{\\}
+
+			\cp
+				& \SI[round-precision = 5]{\lm}{\nano\meter}
+				& $\ang[arc-separator = \,, minimum-integer-digits = 2]{\dv;\dm;00} \pm\ang{;;37}$
+				& $\num[round-precision = 4]{\n}\pm\nr$
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Desvio mínimo medido para cada comprimento de onda}
+	\label{tab:desvios}
+\end{table}
