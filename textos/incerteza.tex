@@ -1,0 +1,65 @@
+Começando pela incerteza das medidas de dimensão experimentais, no caso, a trena usada para medir a distância $z$ da fenda ao anteparo e o papel milimetrado. Como são medições analógicas, pode-se assumir uma ditribuição triangular, fazendo a incerteza da medição ser:
+\begin{equation*}
+    u_\text{medição} = \text{resolução} \times \frac{\sqrt{6}}{12}
+\end{equation*}
+
+Partindo disso, no caso da trena, assume-se uma incerteza de calibração, que seria como a incerteza de medição do ponto \SI{0}{\centi\meter}, isto é, $u_\text{calibração} = u_\text{medição}$. A incerteza total então seria:
+\begin{align*}
+    u_\text{total}
+        &= \sqrt{u_\text{calibração}^2 + u_\text{medição}^2} \\
+        &= u_\text{medição} \sqrt{2} \\
+        &= \text{resolução} \times \frac{\sqrt{3}}{6}
+\end{align*}
+
+Já no caso do papel milimetrado no anteparo, esse tipo de incerteza não é aplicável, porém como a medição é dada por dois pontos, teremos duas incertezas $u_\text{medição}$, o que torna a incerteza total igual a da trena. Um ponto a expor sobre essa medida é que ela é encontrada a partir de duas dimensões, o que complica os cálculos da incerteza, porém, esse valor é encontrado pelo \texttt{ImageJ}\cite{ref:imagej}, onde o resultado é bem mais preciso, o que deixa válida a assunção de apenas a incerteza de medição de maneira linear.
+
+Para ambos os casos acima $\text{resolução} = \SI{1}{\milli\meter}$, e, então, $u_\text{total} = \SI{.3}{\milli\meter}$. Dentre as medidas calculadas com isso, existe o $z$, que então fica $\Delta z = \SI{.3}{\milli\meter}$.
+
+Agora, para os valores calculados, foram feitas as devidas propagações de incertezas, tendo como referência o padrão do INMETRO, o GUM\cite{ref:gum}. O primeiro desses valores é o $b$, da equação \ref{eq:difr}, cujas derivadas parciais são:
+\begin{gather*}
+    \frac{\partial b}{\partial z} = \frac{2 \lambda}{\Delta y} \\
+    \frac{\partial b}{\partial \lambda} = \frac{2 z}{\Delta y} \\
+    \frac{\partial b}{\partial (\Delta y)} = -\frac{2 \lambda z}{(\Delta y)^2}
+\end{gather*}
+
+Porém, como não não existe uma incerteza associada a $\lambda$, tem-se:
+\begin{align*}
+    \Delta b
+        &= \sqrt{\left(\frac{\partial b}{\partial z}\right)^2 (\Delta z)^2 + \left(\frac{\partial b}{\partial (\Delta y)}\right)^2 (\Delta (\Delta y))^2} \\
+        &= \frac{2 \lambda}{\Delta y} \sqrt{(\Delta z)^2 + z^2 \left(\frac{\Delta (\Delta y)}{\Delta y}\right)^2}
+\end{align*}
+
+Um passo importante para reduzir a incerteza numericamente, que também faz parte do procedimento do experimento, é o cálculo de $n_y$ larguras de máximo, em vez de apenas um. Assim, a medida passa a ser $n_y \Delta y$, com a mesma incerteza do $\Delta y$ original. A nova incerteza passar a ser:
+\begin{equation*}
+    \Delta (\Delta y) = \frac{\Delta (n_y \Delta y)}{n_y} = \frac{u_\text{total}}{n_y}
+\end{equation*}
+
+Com um proccesso bem similar aplicado na separação $h$ das fendas duplas, pela eq. \ref{eq:duplas}, chega-se em:
+\begin{equation*}
+    \Delta h = \frac{\lambda}{\Lambda} \sqrt{(\Delta z)^2 + z^2 \left(\frac{\Delta \Lambda}{\Lambda}\right)^2}
+\end{equation*}
+
+Aplicando o mesmo processo de redução da incerteza, isto é, medindo $n_\Lambda \Lambda$, no lugar de somente $\Lambda$, a incerteza reduz para $\Delta \Lambda = u_\text{total}/n_\Lambda$ também.
+
+Para a separação de múltiplas fendas (eq. \ref{eq:mult}), a propagação é novamente muito similar, resultando em:
+\begin{equation*}
+    \Delta h = \frac{\lambda}{N \delta y} \sqrt{(\Delta z)^2 + z^2 \left(\frac{\Delta \delta y}{\delta y}\right)^2}
+\end{equation*}
+
+Nesse caso, no entanto, a redução de incerteza usada anteriormente não é aplicável.
+
+Para a medida final, com o micrômetro metrológico, voltam as incertezas de medidas experimentais. A incerteza de leitura é parecido com a usada na trena, porém a incerteza de paralaxe, devido a leitura com a lupa, assume uma distribuição retangular, pois pode facilmente mudar a leitura uma casa acima ou abaixo, de acordo com a posição do observador. Assim:
+\begin{gather*}
+    u_{\text{medição}} = \frac{\text{resolução}}{2 \sqrt{6}} = \text{resolução} \times \frac{\sqrt{6}}{12} \\
+    u_{\text{paralaxe}} = \frac{2\ \text{resolução}}{2 \sqrt{3}} = \text{resolução} \times \frac{\sqrt{3}}{3} \\
+    \Delta L_i = u_{\text{total}}
+        = \sqrt{u_{\text{medição}}^2 + u_{\text{paralaxe}}^2}
+        = \text{resolução} \times \frac{\sqrt{6}}{4}
+\end{gather*}
+
+Então, como $b = L_2 - L_1$ e $h = L_3 - L_2$:
+\begin{equation*}
+    \Delta b = \Delta h = \sqrt{(\Delta L_i)^2 + (\Delta L_j)^2} = u_\text{total} \sqrt{2} = \text{resolução} \times \frac{\sqrt{3}}{2}
+\end{equation*}
+
+Sendo que a resolução do equipamento é \SI{1}{\micro\meter}, a incerteza é $\Delta b = \Delta h = \SI{.9}{\micro\meter}$.
