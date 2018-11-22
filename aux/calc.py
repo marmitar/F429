@@ -83,11 +83,13 @@ def equations(coefs):
     return linear, lin_r
 
 
-def saveC(lasers, yr):
+def saveC(lasers, mmt, yr):
     lasers = pd.DataFrame(lasers[lasers['fenda'] == 'C'], copy=True)
     lasers['yr'] = [yr] * len(lasers.index)
+    lasers['bm'] = mmt[mmt.index.str.startswith('C')]['b']
+    lasers['bmr'] = mmt[mmt.index.str.startswith('C')]['yr']
 
-    lasers.to_csv("../dados/C.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'b', 'br'))
+    lasers.to_csv("../dados/C.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'b', 'br', 'bm', 'bmr'))
 
 
 if __name__ == "__main__":
@@ -103,7 +105,11 @@ if __name__ == "__main__":
 
 
     lasers = pd.read_csv("../dados/lasers.csv", index_col='id')
-    # print(lasers)
+    micromt = pd.read_csv("../dados/micromt.csv", index_col='id')
+
+    micromt['b'] = micromt['y2'] - micromt['y1']
+    micromt['h'] = micromt['y3'] - micromt['y1']
+    micromt['yr'] = [calib['Mr']] * len(micromt.index)
 
     lasers['Dy'], lasers['Dyr'] = Dy(lasers['nDy'], lasers['n'], calib['yr'])
     lasers['L'], lasers['Lr'] = L(lasers['mL'], lasers['m'], calib['yr'])
@@ -133,7 +139,7 @@ if __name__ == "__main__":
     # for fenda in lasers['fenda'].unique():
     #     lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
     # print(lasers)
-    saveC(lasers, calib['yr'])
+    saveC(lasers, micromt, calib['yr'])
 
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)

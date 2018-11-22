@@ -6,21 +6,23 @@
 		table-figures-uncertainty = 1,
 		zero-decimal-to-integer
 	}
-	\begin{tabular}{ccccc}
+	\begin{tabular}{cccccc}
 		\toprule\toprule
-            {\bfseries Fenda}
-				& {\bfseries $n \Delta y$ [\si{\milli\meter}]}
-				& {\bfseries $n$}
-				& {\bfseries $\Delta y$ [\si{\milli\meter}]}
-                & {\bfseries $b$ [\si{\micro\meter}]}
+            \multirow{2}*{\bfseries Fenda}
+				& \multirow{2}*{\bfseries $n \Delta y$ [\si{\milli\meter}]}
+				& \multirow{2}*{\bfseries $n$}
+				& \multirow{2}*{\bfseries $\Delta y$ [\si{\milli\meter}]}
+				& \multicolumn{2}{c}{\bfseries $b$ [\si{\micro\meter}]}
+			\\ & & & & Calculado & Medido
 
-		\DTLforeach*{medidas}{\fenda=id,\nDy=nDy,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br}{
+		\DTLforeach*{medidas}{\fenda=id,\nDy=nDy,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br,\bm=bm,\bmr=bmr}{
 			\DTLiffirstrow{\\\midrule}{\\}
 			\fenda
 				& $\num{\nDy(3)}$
 				& $\num{\n}$
 				& $\num{\Dy(\Dyr)}$
 				& $\num{\b(\br)}$
+				& $\num{\bm(\bmr)}$
 		}
         \\\bottomrule\bottomrule
 	\end{tabular}
