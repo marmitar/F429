@@ -59,6 +59,8 @@ for group, options in params.items():
 
 def plot_approx(ax, num, func, func_r=None, alpha=.6):
     min_v, max_v = ax.get_xlim()
+    min_y, max_y = ax.get_ylim()
+    dev_y = (max_y - min_y) / 10
 
     x = np.linspace(min_v, max_v, num=num)
     y = func(x)
@@ -71,6 +73,7 @@ def plot_approx(ax, num, func, func_r=None, alpha=.6):
         sns.lineplot(x=x, y=y, color='k', ax=ax, alpha=alpha)
 
     ax.set_xlim(min_v, max_v)
+    ax.set_ylim(min_y-dev_y, max_y+dev_y)
 
 
 def plot_data(canvas, dados, x, y, func, func_exp=None, n=200):
@@ -79,21 +82,12 @@ def plot_data(canvas, dados, x, y, func, func_exp=None, n=200):
 
 
 def plot_lin(canvas, dados, exp, real=None):
-    plot_data(canvas, dados, 'iN', 'dy', exp, real, 200)
+    plot_data(canvas, dados, 'N', 'dy', exp, real, 200)
 
-    canvas.set_xlabel(r"$1/N$")
+    canvas.set_xlabel(r"$N$")
     canvas.set_ylabel(r"$\delta y$ $\left[\si{\milli\meter}\right]$")
 
     canvas.set_title("Regressão para a fórmula de Cauchy")
-
-
-def plot_cte(canvas, dados, exp, real=None):
-    plot_data(canvas, dados, 'dm', 'lambda', exp, real, 200)
-
-    canvas.set_xlabel(r"Desvio mínimo [\degree]")
-    canvas.set_ylabel(r"Comprimento de onda [\si{\nano\meter}]")
-
-    canvas.set_title("Dispersão aproximada pela fórmula de Cauchy")
 
 
 
@@ -102,7 +96,7 @@ if __name__ == "__main__":
     with open("../dados/coefs.json", mode='r') as fcoefs:
         coefs = json.load(fcoefs)
 
-    lin_exp, lin_err, cte_exp, cte_err = equations(coefs)
+    lin_exp, lin_err = equations(coefs)
 
 
     fig = plt.figure()
@@ -110,10 +104,15 @@ if __name__ == "__main__":
 
     plot_lin(canvas, desvio, lin_exp, lin_err)
     fig.savefig('lin.png', dpi=200)
+
+    canvas.set_xscale('log')
+    canvas.set_yscale('log')
+    fig.savefig('log.png', dpi=200)
+
     # fig.savefig('../figuras/plots/lin.pgf')
 
-    fig.clear()
-    canvas = plt.axes()
+    # fig.clear()
+    # canvas = plt.axes()
 
     # plot_cte(canvas, desvio, cte_exp, cte_err)
     # fig.savefig('cte.png', dpi=200)
