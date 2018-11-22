@@ -83,6 +83,12 @@ def equations(coefs):
     return linear, lin_r
 
 
+def saveC(lasers, yr):
+    lasers = pd.DataFrame(lasers[lasers['fenda'] == 'C'], copy=True)
+    lasers['yr'] = [yr] * len(lasers.index)
+
+    lasers.to_csv("../dados/C.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'b', 'br'))
+
 
 if __name__ == "__main__":
     coalesce = lambda x, y: np.where(pd.notna(x), x, y)
@@ -114,20 +120,20 @@ if __name__ == "__main__":
     print(lasers)
 
 
-    for key in "Dy", "L", "dy", "b", "h":
-        lasers[key] = np.round(lasers[key] * 10**6)
-        lasers[key+'r'] = np.round(lasers[key+'r'] * 10**6)
-    for key in "Dy", "Dyr", "b", "br":
-        lasers[key] = lasers[key].astype(np.int64)
+    # for key in "Dy", "L", "dy", "b", "h":
+    #     lasers[key] = np.round(lasers[key] * 10**6)
+    #     lasers[key+'r'] = np.round(lasers[key+'r'] * 10**6)
+    # for key in "Dy", "Dyr", "b", "br":
+    #     lasers[key] = lasers[key].astype(np.int64)
 
     # lasers['Dy'] = lasers['Dy'].apply(rounder(2))
     # desvio['n'] = desvio['n'].apply(rounder(3))
     # desvio['nr'] = desvio['nr'].apply(rounder(3))
     # desvio['il2'] = desvio['il2'].apply(rounder(2))
-    for fenda in lasers['fenda'].unique():
-        lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
+    # for fenda in lasers['fenda'].unique():
+    #     lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
     # print(lasers)
-
+    saveC(lasers, calib['yr'])
 
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
