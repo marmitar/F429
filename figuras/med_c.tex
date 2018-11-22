@@ -1,4 +1,4 @@
-\DTLloaddb{medidas}{dados/C.csv}
+\DTLloaddb{medidasC}{dados/C.csv}
 
 \begin{table}[H]
 	\centering
@@ -9,24 +9,24 @@
 	\begin{tabular}{cccccc}
 		\toprule\toprule
             \multirow{2}*{\bfseries Fenda}
-				& \multirow{2}*{\bfseries $n \Delta y$ [\si{\milli\meter}]}
-				& \multirow{2}*{\bfseries $n$}
+				& \multirow{2}*{\bfseries $n_y$}
+				& \multirow{2}*{\bfseries $n_y \Delta y$ [\si{\milli\meter}]}
 				& \multirow{2}*{\bfseries $\Delta y$ [\si{\milli\meter}]}
 				& \multicolumn{2}{c}{\bfseries $b$ [\si{\micro\meter}]}
 			\\ & & & & Calculado & Medido
 
-		\DTLforeach*{medidas}{\fenda=id,\nDy=nDy,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br,\bm=bm,\bmr=bmr}{
+		\DTLforeach*{medidasC}{\fenda=id,\nDy=nDy,\yr=yr,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br,\bm=bm,\bmr=bmr}{
 			\DTLiffirstrow{\\\midrule}{\\}
 			\fenda
-				& $\num{\nDy(3)}$
 				& $\num{\n}$
+				& $\num{\nDy(\yr)}$
 				& $\num{\Dy(\Dyr)}$
 				& $\num{\b(\br)}$
-				& $\num{\bm(\bmr)}$
+				& $\num[zero-decimal-to-integer=false]{\bm(\bmr)}$
 		}
         \\\bottomrule\bottomrule
 	\end{tabular}
 
 	\caption{Desvio mínimo medido para cada comprimento de onda}
-	\label{tab:desvios}
+	\label{tab:fend_c}
 \end{table}
