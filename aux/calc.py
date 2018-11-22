@@ -91,6 +91,14 @@ def saveC(lasers, mmt, yr):
 
     lasers.to_csv("../dados/C.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'b', 'br', 'bm', 'bmr'))
 
+def saveB(lasers, mmt, yr):
+    lasers = pd.DataFrame(lasers[lasers['fenda'] == 'B'], copy=True)
+    lasers['yr'] = [yr] * len(lasers.index)
+    lasers['bm'] = mmt[mmt.index.str.startswith('B')]['b']
+    lasers['hm'] = mmt[mmt.index.str.startswith('B')]['h']
+    lasers['ymr'] = mmt[mmt.index.str.startswith('B')]['yr']
+
+    lasers.to_csv("../dados/B.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'bm', 'hm', 'ymr'))
 
 if __name__ == "__main__":
     coalesce = lambda x, y: np.where(pd.notna(x), x, y)
@@ -139,7 +147,9 @@ if __name__ == "__main__":
     # for fenda in lasers['fenda'].unique():
     #     lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
     # print(lasers)
-    saveC(lasers, micromt, calib['yr'])
+
+    # saveC(lasers, micromt, calib['yr'])
+    # saveB(lasers, micromt, calib['yr'])
 
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
