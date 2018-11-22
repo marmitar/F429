@@ -1,7 +1,8 @@
 {
+    "yres": 1,
     "zres": 1,
-    "Lres": 1,
+    "Mres": 1,
 
     "z": 1845,
-    "lambda": 532
+    "lambda": 0.000532
 }

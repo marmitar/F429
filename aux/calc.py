@@ -8,41 +8,38 @@ from scipy import stats
 
 def print(*args, func=print, **kwargs):
     kwargs['sep'] = ",  "
-    # func()
     func(*args, **kwargs)
 
 sqrt = np.sqrt
-sin = lambda deg: np.sin(np.deg2rad(deg))
-cos = lambda deg: np.cos(np.deg2rad(deg))
 
 
-def n(desvio, alpha):
-    sup = sin((alpha+desvio)/2)
-    inf = sin(alpha/2)
-    return sup/inf
+def zr(res):
+    return res * sqrt(3)/6
+
+def yr(res):
+    return zr(res)
+
+def Mr(res):
+    return res * sqrt(3)/2
 
 
-def nr(dm, a, dmr, ar):
-    dnda = sin(dm/2) / (cos(a)-1)
-    # dnddm2 = (cos(a+dm)+1) / (cos(a)-1)
-    dnddm = (sin(a/2) * cos((a+dm)/2)) / (cos(a)-1)
+def Dy(nDy, n, yr):
+    return nDy/n, yr/n
 
-    nr2 = (ar * dnda)**2 + (dmr * dnddm)**2
-    return sqrt(nr2)
+def L(mL, m, yr):
+    return Dy(mL, m, yr)
 
 
-def calc_desvio(dados, err):
-    d1 = dados['d1'] + dados['m1']/60
-    d2 = dados['d2'] + dados['m2']/60
-    d3 = dados['d3'] + dados['m3']/60
+def hN(N, l, z, dy, zr, dyr):
+    fac = l / (N * dy)
+    err2 = zr**2 + (z*dyr/dy)**2
+    return fac*z, fac*sqrt(err2)
 
-    dm = (d1 + d2 + d3)/3
-    varn = (d1-dm)**2 + (d2-dm)**2 + (d3-dm)**2
-    dmr = sqrt((varn/3 + 2*err**2)/3)
-    dmr = varn + err - varn
+def b(l, z, Dy, zr, Dyr):
+    return hN(1, l, z, Dy/2, zr, Dyr/2)
 
-    dados['dm'] = dm
-    dados['dmr'] = dmr
+def h2(l, z, L, zr, Lr):
+    return hN(2, l, z, L/2, zr, Lr/2)
 
 
 def lst_sq(x, y, yerr):
@@ -69,18 +66,7 @@ def lst_sq(x, y, yerr):
     uA = sqrt(sA2 + eA2)
     uB = sqrt(sB2 + eB2)
 
-    # print(f"s: {sqrt(s2)}")
-    # print(f"sA = {sqrt(sA2)}", f"sB = {sqrt(sB2)}")
-    # print(f"eA = {sqrt(eA2)}", f"eB = {sqrt(eB2)}")
-
     return A, B, uA, uB
-
-
-def degerr(res, par):
-    res = res/(2 * sqrt(6))
-    par = 2 * par/(2 * sqrt(3))
-
-    return sqrt(res**2 + par**2)
 
 
 def rounder(digits):
@@ -88,91 +74,66 @@ def rounder(digits):
 
 
 def equations(coefs):
-    A, B, a = coefs['A'], coefs['B'], coefs['alpha']
-    Ar, Br, ar = coefs['Ar'], coefs['Br'], coefs['ar']
-    dr = coefs['dmr']  #, coefs['nr']
+    A, B = coefs['A'], coefs['B']
+    Ar, Br = coefs['Ar'], coefs['Br']
 
-    sina, cosa = sin(a/2), cos(a/2)
-    n = lambda dm: sin((a+dm)/2)/sina
+    linear = lambda iN: A + B * iN
+    lin_r = lambda iN: sqrt(Ar**2 + (iN*Br)**2)
 
-    linear = lambda il2: A + B * il2
-    lin_r = lambda il2: sqrt(Ar**2 + (il2*Br)**2)
+    return linear, lin_r
 
-    cauchy = lambda dm: sqrt(B / (n(dm) - A)) * 1000
-
-    def cauchy_r(dm):
-        nl = n(dm)
-        nA = nl-A
-        k = 1/(2 * nA)
-        ni = cos((a+dm)/2)/sina
-        nd = ni - nl * cosa/sina
-
-        sA = Ar**2 * B / nA
-        sB = Br**2 * nA / B
-        sd = dr**2 * B / nA * ni**2 / 4
-        sa = ar**2 * B / nA * nd**2 / 4
-
-        return k * sqrt(sA + sB + sd + sa) * 1000
-
-    return linear, lin_r, cauchy, cauchy_r
 
 
 if __name__ == "__main__":
+    coalesce = lambda x, y: np.where(pd.notna(x), x, y)
 
     with open("../dados/calib.json", mode='r') as fcalib:
         calib = json.load(fcalib)
 
-    err = degerr(calib['resolução']/60, calib['paralaxe'] / 60)
-    print(f"err: {err:.3f}")
-
-    L1 = calib['L1d'] + calib['L1m']/60
-    L2 = calib['L2d'] + calib['L2m']/60
-    alpha = (L1 + 360 - L2)/2
-    ar = err * sqrt(2)/2
-
-    print(f"alpha = {alpha:.3f}+-{ar:.3f}")
+    calib['zr'] = zr(calib['zres'])
+    calib['yr'] = yr(calib['yres'])
+    calib['Mr'] = Mr(calib['Mres'])
+    # print(calib)
 
 
-    desvio = pd.read_csv("../dados/desvio.csv", index_col='id')
-    desvio['dm'] = desvio['dm_d'] + desvio['dm_m']/60
-    # desvio['dmr'] = desvio['dm'] - desvio['dm'] + err
+    lasers = pd.read_csv("../dados/lasers.csv", index_col='id')
+    # print(lasers)
 
-    desvio['n'] = n(desvio['dm'], alpha)
-    desvio['nr'] = nr(desvio['dm'], alpha, err, ar)
-
-    desvio['il2'] = 1/(desvio['lambda']/10**3)**2
-
-    desvio['dm'] = desvio['dm'].apply(rounder(2))
-    desvio['n'] = desvio['n'].apply(rounder(3))
-    desvio['nr'] = desvio['nr'].apply(rounder(3))
-    desvio['il2'] = desvio['il2'].apply(rounder(2))
-    desvio.to_csv("../dados/desvio.csv")
+    lasers['Dy'], lasers['Dyr'] = Dy(lasers['nDy'], lasers['n'], calib['yr'])
+    lasers['L'], lasers['Lr'] = L(lasers['mL'], lasers['m'], calib['yr'])
+    lasers['dy'], lasers['dyr'] = lasers['2dy']/2, [calib['yr']/2] * lasers['2dy']/lasers['2dy']
+    lasers['b'], lasers['br'] = b(
+        calib['lambda'], calib['z'], lasers['Dy'], calib['zr'], lasers['Dyr']
+    )
 
 
-    A, B, Ar, Br = lst_sq(desvio['il2'], desvio['n'], desvio['nr']*0)
+    h2, h2r = h2(calib['lambda'], calib['z'], lasers['L'], calib['zr'], lasers['Lr'])
+    hN, hNr = hN(lasers['N'], calib['lambda'], calib['z'], lasers['dy'], calib['zr'], lasers['dyr'])
+    lasers['h'] = coalesce(h2, hN)
+    lasers['hr'] = coalesce(h2r, hNr)
+    # print(lasers)
+
+
+    for key in "Dy", "L", "dy", "b", "h":
+        lasers[key] = lasers[key].apply(rounder(5))
+        lasers[key+'r'] = lasers[key+'r'].apply(rounder(5))
+    # lasers['Dy'] = lasers['Dy'].apply(rounder(2))
+    # desvio['n'] = desvio['n'].apply(rounder(3))
+    # desvio['nr'] = desvio['nr'].apply(rounder(3))
+    # desvio['il2'] = desvio['il2'].apply(rounder(2))
+    for fenda in lasers['fenda'].unique():
+        lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
+    # print(lasers)
+
+
+    lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
+    lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
+    lin = pd.DataFrame(lasers[(lasers['fenda'] == 'A') & (lasers['N'] > 1)], copy=True)
+    lin['1/N'] = 1/lin['N']
+    A, B, Ar, Br = lst_sq(lin['1/N'], lin['dy'], lin['dyr']*0)
     print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
 
-    coefs = {
-        'A': A,
-        'B': B,
-        'Ar': Ar,
-        'Br': Br,
-        'alpha': alpha,
-        'ar': ar,
-        'dmr': err,
-        # 'nr': nr(0, 0, 0, 0)
-    }
+    coefs = {'A': A, 'Ar': Ar, 'B': B, 'Br': Br}
     with open("../dados/coefs.json", mode='w') as fcoefs:
         json.dump(coefs, fcoefs, indent=4)
 
-
-    _, _, _, cauchy = equations(coefs)
-    resols = cauchy(desvio['dm'])
-    l_r = min(resols)
-    print(f"res. spec.: {l_r:.1f}")
-
-    # coefs['dmr'] = 0.0
-    _, _, _, cauchy = equations(coefs)
-    resols = cauchy(desvio['dm'])
-    l_r = min(resols)
-    print(f"res. spec.: {l_r:.1f}")
