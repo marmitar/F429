@@ -74,13 +74,17 @@ def rounder(digits):
 
 
 def equations(coefs):
-    A, B = coefs['A'], coefs['B']
-    Ar, Br = coefs['Ar'], coefs['Br']
+    hA, hB = coefs['hA'], coefs['hB']
+    hAr, hBr = coefs['hAr'], coefs['hBr']
+    bA, bB = coefs['bA'], coefs['bB']
+    bAr, bBr = coefs['bAr'], coefs['bBr']
 
-    linear = lambda iN: A + B * iN
-    lin_r = lambda iN: sqrt(Ar**2 + (iN*Br)**2)
+    linear = lambda iN: hA + hB * iN
+    lin_r = lambda iN: sqrt(hAr**2 + (iN*hBr)**2)
+    const = lambda iN: bA + bB * iN
+    cte_r = lambda iN: sqrt(bAr**2 + (iN*bBr)**2)
 
-    return linear, lin_r
+    return linear, lin_r, const, cte_r
 
 
 def saveC(lasers, mmt, yr):
@@ -108,6 +112,16 @@ def saveA(lasers, yr):
     lasers['yr'] = [yr] * len(lasers.index)
 
     lasers.to_csv("../dados/A.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'dy', 'dyr'))
+
+def saveAplt(lasers, yr):
+    lasers = pd.DataFrame(lasers[lasers['fenda'] == 'A'], copy=True)
+
+    lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
+    lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
+    lasers['yr'] = [yr] * len(lasers.index)
+    lasers['iN'] = 1/lasers['N']
+
+    lasers.to_csv("A.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'dy', 'dyr', 'N', 'iN'))
 
 
 
@@ -145,16 +159,24 @@ if __name__ == "__main__":
     # saveC(lasers, micromt, calib['yr'])
     # saveB(lasers, micromt, calib['yr'])
     # saveA(lasers, calib['yr'])
+    saveAplt(lasers, calib['yr'])
 
 
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
     lin = pd.DataFrame(lasers[(lasers['fenda'] == 'A') & (lasers['N'] > 1)], copy=True)
-    lin['1/N'] = 1/lin['N']
-    hA, hB, hAr, hBr = lst_sq(lin['1/N'], lin['dy'], lin['dyr']*0)
+    hA, hB, hAr, hBr = lst_sq(1/lin['N'], lin['dy'], lin['dyr'])
     print(f"A = {hA:.3f}+-{hAr:.3f}", f"B = {hB:.4f}+-{hBr:.4f}")
 
-    coefs = {'hA': hA, 'hAr': hAr, 'hB': hB, 'hBr': hBr}
+    cte = pd.DataFrame(lasers[lasers['fenda'] == 'A'], copy=True)
+
+    bA, bB, bAr, bBr = lst_sq(1/cte['N'], cte['Dy'], cte['Dyr'])
+    print(f"A = {bA:.3f}+-{bAr:.3f}", f"B = {bB:.4f}+-{bBr:.4f}")
+
+    coefs = {
+        'hA': hA, 'hAr': hAr, 'hB': hB, 'hBr': hBr,
+        'bA': bA, 'bAr': bAr, 'bB': bB, 'bBr': bBr,
+    }
     with open("../dados/coefs.json", mode='w') as fcoefs:
         json.dump(coefs, fcoefs, indent=4)
 

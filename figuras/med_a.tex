@@ -6,9 +6,9 @@
 		table-figures-uncertainty = 1,
 		zero-decimal-to-integer
 	}
-	\begin{tabular}{cccccccc}
+	\begin{tabular}{ccccccccc}
 		\toprule\toprule
-            {\bfseries Fenda}
+            {\bfseries Fenda} & {Número de fendas}
 				& {\bfseries $n_y$}
 				& {\bfseries $n_y \Delta y$ [\si{\milli\meter}]}
 				& {\bfseries $\Delta y$ [\si{\milli\meter}]}
@@ -17,9 +17,9 @@
 				& {\bfseries $\Lambda$ [\si{\milli\meter}]}
 				& {\bfseries $\delta y$ [\si{\milli\meter}]}
 
-		\DTLforeach*{medidasA}{\fenda=id,\nDy=nDy,\yr=yr,\n=n,\Dy=Dy,\Dyr=Dyr,\mL=mL,\m=m,\L=L,\Lr=Lr,\b=b,\br=br,\h=h,\hr=hr,\dy=dy,\dyr=dyr}{
+		\DTLforeach*{medidasA}{\fenda=id,\nDy=nDy,\yr=yr,\n=n,\Dy=Dy,\Dyr=Dyr,\mL=mL,\m=m,\L=L,\Lr=Lr,\b=b,\br=br,\h=h,\hr=hr,\dy=dy,\dyr=dyr,\fendas=N}{
 			\DTLiffirstrow{\\\midrule}{\\}
-			\fenda
+			\fenda & \fendas
 				& $\num{\n}$
 				& $\num{\nDy(\yr)}$
 				& $\num{\Dy(\Dyr)}$
