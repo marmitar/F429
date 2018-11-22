@@ -11,30 +11,30 @@ Também assumiu-se uma incerteza de calibração de posicionamento da trena, com
         &= \text{resolução} \times \frac{\sqrt{3}}{6}
 \end{align*}
 
-Já no caso do papel milimetrado do anteparo, esse tipo de incerteza não é aplicável, porém como a medição é dada por dois pontos, teremos duas incertezas $u_\text{medição}$, o que torna a incerteza total igual a da trena. Um ponto a expor sobre essa medida é que ela é encontrada a partir de duas dimensões, o que complica os cálculos da incerteza, porém, esse valor é encontrado pelo \texttt{ImageJ}\cite{ref:imagej}, onde o resultado é bem mais preciso, o que deixa válida a assunção de apenas a incerteza de medição de maneira linear.
+Já para o caso do papel milimetrado do anteparo, esse tipo de incerteza não é aplicável, porém, como a medição é dada por dois pontos, teremos duas incertezas $u_\text{medição}$, o que torna a incerteza total igual a da trena. Um ponto a expor sobre essa medida é que ela é encontrada a partir de duas dimensões, o que complica os cálculos da incerteza. Porém, esse valor é encontrado pelo \texttt{ImageJ}\cite{ref:imagej}, onde o resultado é bem mais preciso, o que deixa válida a assunção de que possa ser considerada apenas a incerteza de uma das dimensões.
 
-Para ambos os casos acima $\text{resolução} = \SI{1}{\milli\meter}$, e, então, $u_\text{total} = \SI{.3}{\milli\meter}$. Dentre as medidas calculadas com isso, existe o $z$, que então fica $\Delta z = \SI{.3}{\milli\meter}$.
+Para ambos os casos anteriores $\text{resolução} = \SI{1}{\milli\meter}$, e, então, $u_\text{total} = \SI{.3}{\milli\meter}$. Dentre as medidas calculadas desta maneira, é importante lembrar do valor de $z$ e sua incerteza, a qual determinou-se $\Delta z = \SI{.3}{\milli\meter}$.
 
-Agora, para os valores calculados, foram feitas as devidas propagações de incertezas, tendo como referência o padrão do INMETRO, o GUM\cite{ref:gum}. O primeiro desses valores é o $b$, da equação \ref{eq:difr}, cujas derivadas parciais são:
+Agora, para os valores calculados a partir do modelo de difração de Fraunhofer, foram feitas as devidas propagações de incertezas, tendo como referência o padrão do INMETRO, o GUM\cite{ref:gum}. O primeiro desses valores é o $b$, da equação \ref{eq:difr}, cujas derivadas parciais são:
 \begin{gather*}
     \frac{\partial b}{\partial z} = \frac{2 \lambda}{\Delta y} \\
     \frac{\partial b}{\partial \lambda} = \frac{2 z}{\Delta y} \\
     \frac{\partial b}{\partial (\Delta y)} = -\frac{2 \lambda z}{(\Delta y)^2}
 \end{gather*}
 
-Porém, como não não existe uma incerteza associada a $\lambda$, tem-se:
+Porém, como não existe uma incerteza associada a $\lambda$, tem-se:
 \begin{align*}
     \Delta b
         &= \sqrt{\left(\frac{\partial b}{\partial z}\right)^2 (\Delta z)^2 + \left(\frac{\partial b}{\partial (\Delta y)}\right)^2 (\Delta (\Delta y))^2} \\
         &= \frac{2 \lambda}{\Delta y} \sqrt{(\Delta z)^2 + z^2 \left(\frac{\Delta (\Delta y)}{\Delta y}\right)^2}
 \end{align*}
 
-Um passo importante para reduzir a incerteza numericamente, que também faz parte do procedimento do experimento, é o cálculo de $n_y$ larguras de máximo, em vez de apenas um. Assim, a medida passa a ser $n_y \Delta y$, com a mesma incerteza do $\Delta y$ original. A nova incerteza passar a ser:
+Também faz parte do procedimento experimental a redução numérica da incerteza. Dessa forma, é importante o cálculo de $n_y$ máximos, em vez de apenas um. Assim, a medida passa a ser $n_y \Delta y$, com a mesma incerteza do $\Delta y$ original. A nova incerteza então passar a ser:
 \begin{equation*}
     \Delta (\Delta y) = \frac{\Delta (n_y \Delta y)}{n_y} = \frac{u_\text{total}}{n_y}
 \end{equation*}
 
-Com um proccesso bem similar aplicado na separação $h$ das fendas duplas, pela eq. \ref{eq:duplas}, chega-se em:
+Com um processo bem similar foi aplicado na separação $h$ das fendas duplas, pela eq. \ref{eq:duplas}, chega-se em:
 \begin{equation*}
     \Delta h = \frac{\lambda}{\Lambda} \sqrt{(\Delta z)^2 + z^2 \left(\frac{\Delta \Lambda}{\Lambda}\right)^2}
 \end{equation*}
@@ -48,7 +48,7 @@ Para a separação de múltiplas fendas (eq. \ref{eq:mult}), a propagação é n
 
 Nesse caso, no entanto, a redução de incerteza usada anteriormente não é aplicável.
 
-Para a medida final, com o micrômetro metrológico, voltam as incertezas de medidas experimentais. A incerteza de leitura é parecido com a usada na trena, porém a incerteza de paralaxe, devido a leitura com a lupa, assume uma distribuição retangular, pois pode facilmente mudar a leitura uma casa acima ou abaixo, de acordo com a posição do observador. Assim:
+Para a medida final, com o microscópio metrológico, voltam as incertezas de medidas experimentais. A incerteza de leitura é similar àquela usada na trena, porém julgou-se necessário considerar uma incerteza de paralaxe, devido a leitura com a lupa. Tal procedimento assume uma distribuição retangular, pois pode facilmente mudar a leitura uma casa acima ou abaixo, de acordo com a posição do observador. Assim:
 \begin{gather*}
     u_{\text{medição}} = \frac{\text{resolução}}{2 \sqrt{6}} = \text{resolução} \times \frac{\sqrt{6}}{12} \\
     u_{\text{paralaxe}} = \frac{2\ \text{resolução}}{2 \sqrt{3}} = \text{resolução} \times \frac{\sqrt{3}}{3} \\
