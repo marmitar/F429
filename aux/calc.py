@@ -74,17 +74,13 @@ def rounder(digits):
 
 
 def equations(coefs):
-    hA, hB = coefs['hA'], coefs['hB']
-    hAr, hBr = coefs['hAr'], coefs['hBr']
-    bA, bB = coefs['bA'], coefs['bB']
-    bAr, bBr = coefs['bAr'], coefs['bBr']
+    A, B = coefs['A'], coefs['B']
+    Ar, Br = coefs['Ar'], coefs['Br']
 
-    linear = lambda iN: hA + hB * iN
-    lin_r = lambda iN: sqrt(hAr**2 + (iN*hBr)**2)
-    const = lambda iN: bA + bB * iN
-    cte_r = lambda iN: sqrt(bAr**2 + (iN*bBr)**2)
+    linear = lambda N: A + B / N
+    lin_r = lambda N: sqrt(Ar**2 + (Br/N)**2)
 
-    return linear, lin_r, const, cte_r
+    return linear, lin_r
 
 
 def saveC(lasers, mmt, yr):
@@ -165,18 +161,16 @@ if __name__ == "__main__":
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
     lin = pd.DataFrame(lasers[(lasers['fenda'] == 'A') & (lasers['N'] > 1)], copy=True)
-    hA, hB, hAr, hBr = lst_sq(1/lin['N'], lin['dy'], lin['dyr'])
-    print(f"A = {hA:.3f}+-{hAr:.3f}", f"B = {hB:.4f}+-{hBr:.4f}")
+    A, B, Ar, Br = lst_sq(1/lin['N'], lin['dy'], lin['dyr'])
+    print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
 
-    cte = pd.DataFrame(lasers[lasers['fenda'] == 'A'], copy=True)
-
-    bA, bB, bAr, bBr = lst_sq(1/cte['N'], cte['Dy'], cte['Dyr'])
-    print(f"A = {bA:.3f}+-{bAr:.3f}", f"B = {bB:.4f}+-{bBr:.4f}")
-
-    coefs = {
-        'hA': hA, 'hAr': hAr, 'hB': hB, 'hBr': hBr,
-        'bA': bA, 'bAr': bAr, 'bB': bB, 'bBr': bBr,
-    }
+    coefs = {'A': A, 'Ar': Ar, 'B': B, 'Br': Br}
     with open("../dados/coefs.json", mode='w') as fcoefs:
         json.dump(coefs, fcoefs, indent=4)
 
+    log = pd.DataFrame()
+    log['N'] = np.log10(lin['N'])
+    log['dy'] = np.log10(lin['dy'])
+    log['dyr'] = lin['dyr']/lin['dy']/np.log(10)
+    A, B, Ar, Br = lst_sq(log['N'], log['dy'], log['dyr'])
+    print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
