@@ -1,9 +1,9 @@
-Começando pela incerteza das medidas de dimensão experimentais, no caso, a trena usada para medir a distância $z$ da fenda ao anteparo e o papel milimetrado. Como são medições analógicas, pode-se assumir uma ditribuição triangular, fazendo a incerteza da medição ser:
+Começando pela incerteza das medidas dimensionais do experimento, a trena usada para medir a distância $z$ da fenda ao anteparo (papel milimetrado). Como são medições analógicas, considerou-se uma distribuição triangular, fazendo a incerteza da medição ser:
 \begin{equation*}
     u_\text{medição} = \text{resolução} \times \frac{\sqrt{6}}{12}
 \end{equation*}
 
-Partindo disso, no caso da trena, assume-se uma incerteza de calibração, que seria como a incerteza de medição do ponto \SI{0}{\centi\meter}, isto é, $u_\text{calibração} = u_\text{medição}$. A incerteza total então seria:
+Também assumiu-se uma incerteza de calibração de posicionamento da trena, como a incerteza de medição do ponto \SI{0}{\centi\meter}. Esta incerteza poderia ser determinada de forma idêntica à anterior, dessa forma, $u_\text{calibração} = u_\text{medição}$. A incerteza total então seria:
 \begin{align*}
     u_\text{total}
         &= \sqrt{u_\text{calibração}^2 + u_\text{medição}^2} \\
@@ -11,7 +11,7 @@ Partindo disso, no caso da trena, assume-se uma incerteza de calibração, que s
         &= \text{resolução} \times \frac{\sqrt{3}}{6}
 \end{align*}
 
-Já no caso do papel milimetrado no anteparo, esse tipo de incerteza não é aplicável, porém como a medição é dada por dois pontos, teremos duas incertezas $u_\text{medição}$, o que torna a incerteza total igual a da trena. Um ponto a expor sobre essa medida é que ela é encontrada a partir de duas dimensões, o que complica os cálculos da incerteza, porém, esse valor é encontrado pelo \texttt{ImageJ}\cite{ref:imagej}, onde o resultado é bem mais preciso, o que deixa válida a assunção de apenas a incerteza de medição de maneira linear.
+Já no caso do papel milimetrado do anteparo, esse tipo de incerteza não é aplicável, porém como a medição é dada por dois pontos, teremos duas incertezas $u_\text{medição}$, o que torna a incerteza total igual a da trena. Um ponto a expor sobre essa medida é que ela é encontrada a partir de duas dimensões, o que complica os cálculos da incerteza, porém, esse valor é encontrado pelo \texttt{ImageJ}\cite{ref:imagej}, onde o resultado é bem mais preciso, o que deixa válida a assunção de apenas a incerteza de medição de maneira linear.
 
 Para ambos os casos acima $\text{resolução} = \SI{1}{\milli\meter}$, e, então, $u_\text{total} = \SI{.3}{\milli\meter}$. Dentre as medidas calculadas com isso, existe o $z$, que então fica $\Delta z = \SI{.3}{\milli\meter}$.
 
