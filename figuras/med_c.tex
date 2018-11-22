@@ -1,0 +1,30 @@
+\DTLloaddb{medidas}{dados/C.csv}
+
+\begin{table}[H]
+	\centering
+	\sisetup{
+		table-figures-uncertainty = 1,
+		zero-decimal-to-integer
+	}
+	\begin{tabular}{ccccc}
+		\toprule\toprule
+            {\bfseries Fenda}
+				& {\bfseries $n \Delta y$ [\si{\milli\meter}]}
+				& {\bfseries $n$}
+				& {\bfseries $\Delta y$ [\si{\milli\meter}]}
+                & {\bfseries $b$ [\si{\milli\meter}]}
+
+		\DTLforeach*{medidas}{\fenda=id,\nDy=nDy,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br}{
+			\DTLiffirstrow{\\\midrule}{\\}
+			\fenda
+				& $\num{\nDy(3)}$
+				& $\num{\n}$
+				& $\num{\Dy(\Dyr)}$
+				& $\num{\b(\br)}$
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Desvio mínimo medido para cada comprimento de onda}
+	\label{tab:desvios}
+\end{table}

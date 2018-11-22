@@ -93,7 +93,7 @@ if __name__ == "__main__":
     calib['zr'] = zr(calib['zres'])
     calib['yr'] = yr(calib['yres'])
     calib['Mr'] = Mr(calib['Mres'])
-    # print(calib)
+    print(calib)
 
 
     lasers = pd.read_csv("../dados/lasers.csv", index_col='id')
@@ -111,12 +111,15 @@ if __name__ == "__main__":
     hN, hNr = hN(lasers['N'], calib['lambda'], calib['z'], lasers['dy'], calib['zr'], lasers['dyr'])
     lasers['h'] = coalesce(h2, hN)
     lasers['hr'] = coalesce(h2r, hNr)
-    # print(lasers)
+    print(lasers)
 
 
     for key in "Dy", "L", "dy", "b", "h":
-        lasers[key] = lasers[key].apply(rounder(5))
-        lasers[key+'r'] = lasers[key+'r'].apply(rounder(5))
+        lasers[key] = np.round(lasers[key] * 10**6)
+        lasers[key+'r'] = np.round(lasers[key+'r'] * 10**6)
+    for key in "Dy", "Dyr", "b", "br":
+        lasers[key] = lasers[key].astype(np.int64)
+
     # lasers['Dy'] = lasers['Dy'].apply(rounder(2))
     # desvio['n'] = desvio['n'].apply(rounder(3))
     # desvio['nr'] = desvio['nr'].apply(rounder(3))
