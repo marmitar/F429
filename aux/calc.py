@@ -11,7 +11,7 @@ def print(*args, func=print, **kwargs):
     func(*args, **kwargs)
 
 sqrt = np.sqrt
-
+coalesce = lambda x, y: np.where(pd.notna(x), x, y)
 
 def zr(res):
     return res * sqrt(3)/6
@@ -100,9 +100,18 @@ def saveB(lasers, mmt, yr):
 
     lasers.to_csv("../dados/B.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'bm', 'hm', 'ymr'))
 
-if __name__ == "__main__":
-    coalesce = lambda x, y: np.where(pd.notna(x), x, y)
+def saveA(lasers, yr):
+    lasers = pd.DataFrame(lasers[lasers['fenda'] == 'A'], copy=True)
 
+    lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
+    lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
+    lasers['yr'] = [yr] * len(lasers.index)
+
+    lasers.to_csv("../dados/A.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'dy', 'dyr'))
+
+
+
+if __name__ == "__main__":
     with open("../dados/calib.json", mode='r') as fcalib:
         calib = json.load(fcalib)
 
@@ -133,32 +142,19 @@ if __name__ == "__main__":
     lasers['hr'] = coalesce(h2r, hNr)
     print(lasers)
 
-
-    # for key in "Dy", "L", "dy", "b", "h":
-    #     lasers[key] = np.round(lasers[key] * 10**6)
-    #     lasers[key+'r'] = np.round(lasers[key+'r'] * 10**6)
-    # for key in "Dy", "Dyr", "b", "br":
-    #     lasers[key] = lasers[key].astype(np.int64)
-
-    # lasers['Dy'] = lasers['Dy'].apply(rounder(2))
-    # desvio['n'] = desvio['n'].apply(rounder(3))
-    # desvio['nr'] = desvio['nr'].apply(rounder(3))
-    # desvio['il2'] = desvio['il2'].apply(rounder(2))
-    # for fenda in lasers['fenda'].unique():
-    #     lasers[lasers['fenda'] == fenda].to_csv(f"../dados/{fenda}.csv")
-    # print(lasers)
-
     # saveC(lasers, micromt, calib['yr'])
     # saveB(lasers, micromt, calib['yr'])
+    # saveA(lasers, calib['yr'])
+
 
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
     lin = pd.DataFrame(lasers[(lasers['fenda'] == 'A') & (lasers['N'] > 1)], copy=True)
     lin['1/N'] = 1/lin['N']
-    A, B, Ar, Br = lst_sq(lin['1/N'], lin['dy'], lin['dyr']*0)
-    print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
+    hA, hB, hAr, hBr = lst_sq(lin['1/N'], lin['dy'], lin['dyr']*0)
+    print(f"A = {hA:.3f}+-{hAr:.3f}", f"B = {hB:.4f}+-{hBr:.4f}")
 
-    coefs = {'A': A, 'Ar': Ar, 'B': B, 'Br': Br}
+    coefs = {'hA': hA, 'hAr': hAr, 'hB': hB, 'hBr': hBr}
     with open("../dados/coefs.json", mode='w') as fcoefs:
         json.dump(coefs, fcoefs, indent=4)
 
