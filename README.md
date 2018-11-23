@@ -1,25 +1,51 @@
 # Relatório(s) de Lab 4
 
-## Para o experimento 4
+## Códigos-fonte dos Relatórios
 
-- [Roteiro](http://www.ggte.unicamp.br/eam/pluginfile.php/494355/mod_resource/content/8/dispersao_prisma.pdf)
+- [Filtros Passivos](https://github.com/TiagodePAlves/F429/tree/r1)
 
-- [Relatório do Smeagle](https://docs.google.com/document/d/1kygnYOeleZUv3M15IT1B-aOytbhao6SMh62xtT0rQJM/edit)
+- [Circuitos Integradores e Diferenciadores](https://github.com/TiagodePAlves/F429/tree/r2)
 
-- [Dicas](http://www.ggte.unicamp.br/eam/mod/forum/discuss.php?d=42648)
+- [Prisma de Dispersão](https://github.com/TiagodePAlves/F429/tree/r4)
 
-## Geral
+- [Fendas de Difração](https://github.com/TiagodePAlves/F429/tree/r5)
 
-- [Recomendações 1](http://www.ggte.unicamp.br/eam/mod/page/view.php?id=167196)
+## Correções
 
-- [Recomendações 2](http://www.ggte.unicamp.br/eam/mod/forum/discuss.php?d=39435)
+- [Filtros Passivos](https://github.com/TiagodePAlves/F429/tree/master/correcao/exp1.pdf)
 
-- [Incerteza 1](http://www.ggte.unicamp.br/eam/pluginfile.php/494276/mod_resource/content/4/Introdu%C3%A7%C3%A3o%20%C3%A0%20Incerteza%20de%20Medi%C3%A7%C3%B5es%202.pdf)
+- [Circuitos Integradores e Diferenciadores](https://github.com/TiagodePAlves/F429/tree/master/correcao/exp2.pdf)
 
-- [Incerteza 2](http://www.ggte.unicamp.br/eam/pluginfile.php/494277/mod_resource/content/2/gum_final.pdf)
+- [Prisma de Dispersão](https://github.com/TiagodePAlves/F429/tree/master/correcao/prisma.pdf)
 
-## Anteriores
+- [Fendas de Difração](https://github.com/TiagodePAlves/F429/tree/master/correcao/fendas.pdf)
 
-- [Exp. 1](http://www.ggte.unicamp.br/eam/pluginfile.php/494324/assignfeedback_file/feedback_files/228019/F429_2s_2018_Turma%20W_Grupo%203_RELAT%C3%93RIO%201.pdf?forcedownload=1)
+## Recomendações Seguidas
 
-- [Exp. 2](http://www.ggte.unicamp.br/eam/pluginfile.php/525406/assignfeedback_file/feedback_files/227915/2S%202018%20Exp%202%20-%20Turma%20W%20-%20Grupo%203.pdf?forcedownload=1)
+- Modelo
+
+  - Resumo
+
+  - Introdução
+    - O que você espera do experimento?
+    - Quais são os objetivos?
+    - Por que eles são importantes?
+    - Que modelo tem que ser usado?
+
+  - Método
+    - Descrever como será feito o que foi proposto na introdução
+    - Análises
+    - Mostrar as medidas e como elas alcançam o que foi proposto na introdução
+
+  - Resultados
+    - Plote seus próprios gráficos
+    - Extrair valores de interesse
+    - Mostrar curvas teóricas ou fazer um ajuste para extrair valores de interesse
+
+  - Discussão
+    - O que foi possível demonstrar com o experimento?
+    - Comparar sua curva com as previsões teóricas
+
+  - Conclusão
+
+- [Guia de Incertezas](http://www.inmetro.gov.br/noticias/conteudo/iso_gum_versao_site.pdf)
