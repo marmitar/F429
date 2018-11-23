@@ -42,6 +42,17 @@ def h2(l, z, L, zr, Lr):
     return hN(2, l, z, L/2, zr, Lr/2)
 
 
+def hA(l, z, zr, B, Br):
+    fac = l / B
+    err2 = zr**2 + (z*Br/B)**2
+    return fac*z, fac*sqrt(err2)
+
+def lhA(l, z, zr, A, Ar):
+    fac = l / 10**A
+    err2 = zr**2 + (np.log(10)*z*Ar)**2
+    return fac*z, fac*sqrt(err2)
+
+
 def lst_sq(x, y, yerr):
     n = len(x)
     xs = sum(x)
@@ -117,7 +128,10 @@ def saveAplt(lasers, yr):
     lasers['yr'] = [yr] * len(lasers.index)
     lasers['iN'] = 1/lasers['N']
 
-    lasers.to_csv("A.csv", columns=('nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L', 'Lr', 'b', 'br', 'h', 'hr', 'dy', 'dyr', 'N', 'iN'))
+    lasers.to_csv("A.csv", columns=(
+        'nDy', 'yr', 'n', 'Dy', 'Dyr', 'mL', 'm', 'L',
+        'Lr', 'b', 'br', 'h', 'hr', 'dy', 'dyr', 'N', 'iN'
+    ))
 
 
 
@@ -161,16 +175,29 @@ if __name__ == "__main__":
     lasers['dy'] = coalesce(lasers['dy'], lasers['L']/2)
     lasers['dyr'] = coalesce(lasers['dyr'], lasers['Lr']/2)
     lin = pd.DataFrame(lasers[(lasers['fenda'] == 'A') & (lasers['N'] > 1)], copy=True)
-    A, B, Ar, Br = lst_sq(1/lin['N'], lin['dy'], lin['dyr'])
+    A, B, Ar, Br = lst_sq(1/lin['N'], lin['dy'], lin['dyr']*0)
     print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
-
-    coefs = {'A': A, 'Ar': Ar, 'B': B, 'Br': Br}
-    with open("../dados/coefs.json", mode='w') as fcoefs:
-        json.dump(coefs, fcoefs, indent=4)
 
     log = pd.DataFrame()
     log['N'] = np.log10(lin['N'])
     log['dy'] = np.log10(lin['dy'])
     log['dyr'] = lin['dyr']/lin['dy']/np.log(10)
-    A, B, Ar, Br = lst_sq(log['N'], log['dy'], log['dyr'])
-    print(f"A = {A:.3f}+-{Ar:.3f}", f"B = {B:.4f}+-{Br:.4f}")
+    lA, lB, lAr, lBr = lst_sq(log['N'], log['dy'], log['dyr']*0)
+    print(f"A = {lA:.3f}+-{lAr:.3f}", f"B = {lB:.4f}+-{lBr:.4f}")
+
+    hA, hAr = hA(calib['lambda'], calib['z'], calib['zr'], B, Br)
+    print(f"h = {hA:.3f}+-{hAr:.3f}")
+    hA, hAr = lhA(calib['lambda'], calib['z'], calib['zr'], lA, lAr)
+    print(f"h = {hA:.3f}+-{hAr:.3f}")
+
+
+    coefs = {
+        'A': A, 'Ar': Ar,
+        'B': B, 'Br': Br,
+        'lA': lA, 'lAr': lAr,
+        'lB': lB, 'lBr': lBr,
+        'hA': hA, 'hAr': hAr
+    }
+    with open("../dados/coefs.json", mode='w') as fcoefs:
+        json.dump(coefs, fcoefs, indent=4)
+

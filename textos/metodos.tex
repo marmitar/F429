@@ -1,6 +1,6 @@
 \subsection{Procedimentos experimentais}
 
-Para as obtenção das medidas desejadas foi empregado um laser de luz verde aproximadamente monocromática ($\lambda = \SI{532}{\nano\meter}$).
+Para as obtenção das medidas desejadas foi empregado um laser de luz verde aproximadamente monocromática ($\lambda = \SI{532}{\nano\meter}$~\cite{ref:roteiro}).
 
 Inicialmente, foi feito o alinhamento do laser, de forma que as medições pudessem ser realizadas com precisão. Para tal, um vidro metálico contendo diversas fendas variadas (figura \ref{fig:rede}), impressas por litografia, foi alinhado perpendicularmente ao feixe do laser. Em seguida o feixe refletido foi alinhado com o feixe incidente, garantindo o alinhamento do trilho em que o vidro estava montado.
 
@@ -8,7 +8,7 @@ Inicialmente, foi feito o alinhamento do laser, de forma que as medições pudes
 
 A fim de coletar os dados, buscando medir padrões de difração para fendas simples, o laser foi incidido na fenda C4, de forma que o padrão de difração pudesse ser observado em um papel milimetrado utilizado como anteparo. O procedimento foi repetido para as fendas C5 e C6.
 
-Para esta situação, o modelo de difração de Fraunhofer mostra que:
+Para esta situação, o modelo de difração de Fraunhofer~\cite{ref:otica} mostra que:
 \begin{equation*}
     \Delta y \approx \frac{2 \lambda z}{b} \label{eq:difr}
 \end{equation*}
@@ -17,7 +17,7 @@ Sendo que $\Delta y$ é a largura dos máximos da difração, $z$ a separação 
 
 Na sequência, foram medidos os padrões para fendas duplas, B4, B5 e B6, e múltiplas, de A1 a A6, utilizando o mesmo procedimento anterior. Vale ressaltar que, para as fendas múltiplas, a abertura e a separação eram, nominalmente, as mesmas, mudando apenas o número de fendas.
 
-Aplicando o modelo de Fraunhofer sobre a interferência de fendas duplas, a separação entre máximos (ou mínimos) consecutivos no anteparo é dada por:
+Aplicando o modelo de Fraunhofer~\cite{ref:otica} sobre a interferência de fendas duplas, a separação entre máximos (ou mínimos) consecutivos no anteparo é dada por:
 \begin{equation}
     \Lambda \approx \frac{\lambda z}{h} \label{eq:duplas}
 \end{equation}
@@ -31,9 +31,11 @@ Já para uma quantidade generalizada $N$ de fendas, a análise muda e passamos a
 
 Em que $\delta y$ é a metade da largura da base dos máximos primários. Nota-se, também, que essa equação engloba o caso de fendas duplas, já que no caso específico de $N = 2$, teremos $\Lambda = 2 \delta y \approx 2 \frac{\lambda z}{2 h} = \lambda z / h$
 
-Utilizando esta equação, quando o número de fendas é grande e as mesma tem separação bem definida, é possível determinar o comprimento de onda da luz incidente.
+As fendas múltiplas de mesma separação (A2-A6) também foram utilizadas para comprovar a relação: $$\delta y \propto \frac{1}{N} \label{rel:dyn}$$ Para tanto, montou-se um gráfico log-log de $\delta y \times N$ e, então, foi feita uma regressão linear do tipo $\log(\delta y) = A + B \log(N)$. Com essa regressão, $B$ se torna o expoente de $N$ na relação acima. A regressão foi seguindo o recomendado no Gui de Incertezas~\cite{ref:gum}, bem como as incertezas de cada coeficiente.
 
-A próxima etapa do experimento consistia da observação de padrões de difração com a luz incidindo em um fio de cabelo, onde foi utilizado um pequeno quadro de cartolina, de tamanho similar ao vidro utilizado anteriormente, com o fio de cabelo fixado em seu centro. A luz foi incidida no feixe e o padrão gerado foi observado no anteparo. É importante notar que nessas condições o modelo de Fraunhofer para fendas simples é aplicável para este padrão de difração, fazendo com que a determinação da largura do fio de cabelo seja análoga a determinação da largura de uma fenda simples.
+A próxima etapa do experimento consistia da observação de padrões de difração com a luz incidindo em um fio de cabelo, onde foi utilizado um pequeno quadro de material plástico, de tamanho similar ao vidro utilizado anteriormente, com o fio de cabelo fixado em seu centro (figura \ref{fig:fiocab}). A luz foi incidida no feixe e o padrão gerado foi observado no anteparo. É importante notar que, de acordo com o Princípio de Babinet~\cite{ref:wolf}, o modelo de Fraunhofer para fendas simples é aplicável para este padrão de difração, fazendo com que a determinação da largura do fio de cabelo seja análoga a determinação da largura de uma fenda simples.
+
+\input{figuras/mcabelo}
 
 A última etapa de observações foi feita analisando os padrões de difração em aberturas variadas, em geral, não sendo fendas. O mesmo procedimento citado anteriormente foi realizado para as aberturas D, com intuito de inferir o formato presente em cada uma.
 

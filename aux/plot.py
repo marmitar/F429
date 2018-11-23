@@ -59,8 +59,8 @@ for group, options in params.items():
 
 def plot_approx(ax, num, func, func_r=None, alpha=.6):
     min_v, max_v = ax.get_xlim()
-    min_y, max_y = ax.get_ylim()
-    dev_y = (max_y - min_y) / 10
+    # min_y, max_y = ax.get_ylim()
+    # dev_y = (max_y - min_y) / 10
 
     x = np.linspace(min_v, max_v, num=num)
     y = func(x)
@@ -73,7 +73,7 @@ def plot_approx(ax, num, func, func_r=None, alpha=.6):
         sns.lineplot(x=x, y=y, color='k', ax=ax, alpha=alpha)
 
     ax.set_xlim(min_v, max_v)
-    ax.set_ylim(min_y-dev_y, max_y+dev_y)
+    # ax.set_ylim(min_y-dev_y, max_y+dev_y)
 
 
 def plot_data(canvas, dados, x, y, func, func_exp=None, n=200):
@@ -87,7 +87,7 @@ def plot_lin(canvas, dados, exp, real=None):
     canvas.set_xlabel(r"$N$")
     canvas.set_ylabel(r"$\delta y$ $\left[\si{\milli\meter}\right]$")
 
-    canvas.set_title("Regressão para a fórmula de Cauchy")
+    canvas.set_title(r"Regressão log-log da relação $\delta y$ com o número de fendas")
 
 
 
@@ -109,7 +109,7 @@ if __name__ == "__main__":
     canvas.set_yscale('log')
     fig.savefig('log.png', dpi=200)
 
-    # fig.savefig('../figuras/plots/lin.pgf')
+    fig.savefig('../figuras/plots/log.pgf')
 
     # fig.clear()
     # canvas = plt.axes()
