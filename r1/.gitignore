@@ -10,3 +10,4 @@
 *.dvi*
 __pycache__
 .vscode
+!relatorio.pdf
