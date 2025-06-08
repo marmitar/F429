@@ -13,3 +13,4 @@ main.pdf
 __pycache__
 .vscode
 aux/*.png
+!relatorio.pdf
