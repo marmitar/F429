@@ -1,0 +1,18 @@
+Com a mesma fórmula da incerteza propagada ao comprimento de onda (eq. \ref{eq:u:lambda}) na curva de dispersão luminosa (fig. \ref{fig:cauchy}) pode ser estimado uma resolução espectral para o espectrômetro montado. Assumindo que o aparato seja utilizado apenas para desvios mínimos dentro do intervalo dos valores coletados, presentes na tabela \ref{tab:desvios}, o valor mínimo da incerteza do comprimento de onda associado seria $\text{min}(\Delta\lambda_i) = \SI{45}{\nano\meter}$, o que serve para diferenciar até:
+\[
+    \frac{\text{máx}(\lambda_i)-\text{min}(\lambda_i)}{\text{min}(\Delta\lambda_i)} = \frac{\SI{667.8}{\nano\meter}-\SI{435.11}{\nano\meter}}{\SI{45}{\nano\meter}} \approx 5~\text{faixas}
+\]
+
+Agora, trabalhando no espectro vísivel, os limites mudam para \SI{380}{\nano\meter} e \SI{750}{\nano\meter}, que estão ligados a \ang{51;5;} e \ang{47;5;}, respectivamente, de acordo com o ajuste do gráfico \ref{fig:cauchy}. Se for assumir que o equipamento pode ser utilizado nessa banda, a estimativa da resolução espectral reduz para \SI{32}{\nano\meter}. Isso daria uma possibilidade de até $(\SI{750}{\nano\meter}-\SI{380}{\nano\meter})/\SI{32}{\nano\meter} \approx 11~\text{faixas}$ diferenciáveis nessa banda.
+
+Uma opção que, apesar de improvável, serviria na redução dessa estimativa é a repetição das medidas dos desvios mínimos, de maneira manual ou automática, de modo a reduzir a incerteza associada a essa variável, ou seja, $\Delta\delta_\text{min} \approx 0$, resultando em uma nova fórmula para a incerteza:
+\begin{equation}
+    \Delta\lambda = \sqrt{
+        \Delta{A}^2 \left(\frac{\partial\lambda}{\partial A}\right)^2
+        + \Delta{B}^2 \left(\frac{\partial\lambda}{\partial B}\right)^2
+        + \Delta{\alpha}^2 \left(\frac{\partial\lambda}{\partial\alpha}\right)^2
+    }
+\end{equation}
+Com isso, a resolução espectral esperada chegaria a \SI{25}{\nano\meter}, uma melhoria razoável, porém impraticável.
+
+O ideal, no entanto, seria refazer esse experimento com calma e foco em garantir o mínimo de incerteza. Mais lâmpadas de compostos variados seriam bem-vindas, mas o principal seria repetir as medições de ângulos em momentos de tempo espaçados entre si e em ordens diferentes, tudo, claro, com uma calibração impecável do equipamento. Outra coisa que aumentaria a coerência da estimativa da resolução espectral, mesmo que possivelmente aumentando seu valor, seria coletar inúmeras fontes diferentes para a aquisição do valor de $\lambda$ para a regressão incial e montar uma distribuição da incerteza de cada valor.

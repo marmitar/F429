@@ -1,0 +1,32 @@
+\DTLloaddb{medidasC}{dados/C.csv}
+
+\begin{table}[H]
+	\centering
+	\sisetup{
+		table-figures-uncertainty = 1,
+		zero-decimal-to-integer
+	}
+	\begin{tabular}{cccccc}
+		\toprule\toprule
+            \multirow{2}*{\bfseries Fenda}
+				& \multirow{2}*{\bfseries $n_y$}
+				& \multirow{2}*{\bfseries $n_y \Delta y$ [\si{\milli\meter}]}
+				& \multirow{2}*{\bfseries $\Delta y$ [\si{\milli\meter}]}
+				& \multicolumn{2}{c}{\bfseries $b$ [\si{\micro\meter}]}
+			\\ & & & & Calculado & Microscópio
+
+		\DTLforeach*{medidasC}{\fenda=id,\nDy=nDy,\yr=yr,\n=n,\Dy=Dy,\Dyr=Dyr,\b=b,\br=br,\bm=bm,\bmr=bmr}{
+			\DTLiffirstrow{\\\midrule}{\\}
+			\fenda
+				& $\num{\n}$
+				& $\num{\nDy(\yr)}$
+				& $\num{\Dy(\Dyr)}$
+				& $\num{\b(\br)}$
+				& $\num[zero-decimal-to-integer=false]{\bm(\bmr)}$
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Dados obtidos para os padrões de difração das fendas da linha C}
+	\label{tab:fend_c}
+\end{table}

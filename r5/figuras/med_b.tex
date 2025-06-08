@@ -1,0 +1,34 @@
+\DTLloaddb{medidasB}{dados/B.csv}
+
+\begin{table}[H]
+	\centering
+	\sisetup{
+		table-figures-uncertainty = 1,
+		zero-decimal-to-integer
+	}
+	\begin{tabular}{ccccccc}
+		\toprule\toprule
+            {\bfseries Fenda}
+				& {\bfseries $n_y$}
+				& {\bfseries $n_y \Delta y$ [\si{\milli\meter}]}
+				& {\bfseries $\Delta y$ [\si{\milli\meter}]}
+				& {\bfseries $n_\Lambda$}
+				& {\bfseries $n_\Lambda \Lambda$ [\si{\milli\meter}]}
+				& {\bfseries $\Lambda$ [\si{\milli\meter}]}
+
+		\DTLforeach*{medidasB}{\fenda=id,\nDy=nDy,\yr=yr,\n=n,\Dy=Dy,\Dyr=Dyr,\mL=mL,\m=m,\L=L,\Lr=Lr,\b=b,\br=br,\h=h,\hr=hr,\bm=bm,\hm=hm,\ymr=ymr}{
+			\DTLiffirstrow{\\\midrule}{\\}
+			\fenda
+				& $\num{\n}$
+				& $\num{\nDy(\yr)}$
+				& $\num{\Dy(\Dyr)}$
+				& $\num{\m}$
+				& $\num{\mL(\yr)}$
+				& $\num{\L(\Lr)}$
+		}
+        \\\bottomrule\bottomrule
+	\end{tabular}
+
+	\caption{Dados obtidos para os padrões de difração das fendas da linha B}
+	\label{tab:fend_b1}
+\end{table}

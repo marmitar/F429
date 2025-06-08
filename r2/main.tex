@@ -1,0 +1,100 @@
+%% estilo do documento e medidas
+\documentclass[a4paper,portuguese,utf8,T1]{article}
+\usepackage[top=3cm,bottom=2cm,left=2cm,right=2cm,marginparwidth=1.75cm]{geometry}
+\usepackage{indentfirst}
+\renewcommand{\baselinestretch}{1.2}
+\setlength{\marginparwidth}{2cm}
+
+%% linguagem e fontes
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[portuguese]{babel}
+
+%% referencias
+\usepackage[
+    backend = biber,
+    style = alphabetic,
+    sorting = ynt
+]{biblatex}
+\addbibresource{dados/referencias.bib}
+
+%% pacotes para desenhos e ambientes diferenciadas
+\usepackage{amsmath}						% símbolos e ambientes matemáticos
+\usepackage{booktabs}						% tabelas melhoradas
+\usepackage{datatool}						% recolhimento de dados
+\usepackage[table,xcdraw]{xcolor}			% mais cores
+\usepackage{graphicx}						% figuras melhoradas
+\usepackage{subcaption}						% subfiguras
+\usepackage[colorinlistoftodos]{todonotes}	% notas para a escrita
+\usepackage[colorlinks,citecolor=blue]{hyperref}		% links
+\usepackage{circuitikz}						% desenho de circuitos
+\usepackage{csvsimple}						% dados em CSV
+\usepackage{cleveref}						% referenciamento melhorado
+\usepackage{multirow}						% tabelas de multíplas linhas ou colunas
+\usepackage{float}							% fixar posição de figuras
+\usepackage{csquotes}                       % aspas melhoradas
+
+% unidades do SI
+\usepackage[
+	exponent-to-prefix = true,
+	round-mode = figures,
+	scientific-notation = engineering,
+	zero-decimal-to-integer = false,
+	separate-uncertainty = true,
+	multi-part-units = single
+]{siunitx}
+
+% setup para usar o cleveref com o subcaption
+\captionsetup[subfigure]{subrefformat=simple,labelformat=simple}
+    \renewcommand\thesubfigure{(\alph{subfigure})}
+
+%% dados do relatório
+\title{
+	\Huge Experimento 2 			\\
+    \Large Física Experimental IV
+}
+\author{
+	\small Grupo 3:					\\
+	Felipe Mack (81335),			\\
+    Gabriel Ferrauche (197314) e	\\
+    Tiago de Paula (187679)
+}
+\date{\small\today}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Relatório, propriamente %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+	%% Cabeçalho %%
+	\maketitle
+
+	%%%% Resumo %%%%
+	\begin{abstract}
+    	\input{textos/resumo}
+	\end{abstract}
+
+	%%%%% Introdução %%%%%
+	\section{Introdução} \label{introducao}
+		\input{textos/introducao}
+
+	%%%%% Materiais e Métodos %%%%%
+	\section{Materiais e Métodos} \label{metodos}
+    	\input{textos/metodos}
+
+	%%%%% Resultados %%%%%
+	\section{Resultados} \label{resultados}
+	 	\input{textos/resultados}
+
+	%%%%% Discussão %%%%%
+	\section{Discussão} \label{discussao}
+    	\input{textos/discussao}
+
+    %%%%% Conclusão %%%%%
+    \section{Conclusão} \label{conclusao}
+    	\input{textos/conclusao}
+
+	%%%%%% Referências %%%%%%
+    \printbibliography
+
+\end{document}

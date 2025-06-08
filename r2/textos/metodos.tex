@@ -1,0 +1,21 @@
+Para a realização da coleta de dados, o experimento foi dividido em duas partes. sendo a primeira parte dedicada à analise dos filtros RC e segunda do filtro RLC.
+
+\subsection{Filtros RC}
+
+    Para a análise de filtros RC como circuitos integradores e diferenciadores, primeiramente montou-se um circuito RC com componentes $R_1=\SI{150}{\ohm}$ e $C_1=\SI{220}{\nano\farad}$, em valores nominais. Para a integração, foi utilizado o circuito \ref{fig:integrador}, um filtro passa-baixas. Analogamente, para a diferenciação, o circuito \ref{fig:diferenciador}, um filtro passa-altas, foi empregado. É importante citar que ambos circuitos foram construídos com os mesmos componentes, em disposições diferentes, questão melhor abordada na seção \ref{discussao}
+    
+    Em sequência, o gerador de onda \texttt{BK Precision 4052} \cite{ref:gerador} foi ajustado para tensão $V_{pp}=\SI{1}{\volt}$ e \textit{offset} de $\SI{0,5}{\volt}$ e os sinais de entrada e saída, $V_{in}$ e $V_{out}$, foram ligados aos osciloscópio \texttt{Tektronix TBS 1062} \cite{ref:osciloscopio}. Com o sistema em questão devidamente montado, valores de tensão foram coletados para frequências de $\SI{50}{\kilo\hertz}$ e $\SI{500}{\hertz}$, para um intervalo de tempo de $\SI{40}{\milli\second}$. Três situações foram observadas, ondas senoidais, quadradas e triangulares. Por fim, os dados de tensão $V_{in}$ e $V_{out}$ foram coletados utilizando a interface gráfica \texttt{Pylab} da biblioteca  \texttt{pylef}\cite{ref:pylef} de \textit{Python}.
+
+\subsection{Filtro RLC}
+
+    Para a análise do filtro RLC, foi montado um circuito como pode ser visto em \ref{fig:amortecido}, com componentes de valor nominal $L=\SI{2,42}{\milli\henry}$ e $C_{2}=\SI{47}{\nano\farad}$. Para este circuito, o resistor de década $R_{d}$, uma assumiu valores variados com o decorrer da coleta de dados.
+    
+    Na sequência, o circuito foi conectado com os mesmos gerador de onda e osciloscópio utilizados anteriormente, com o gerador ajustado no modo pulso, com frequência de $\SI{500}{\hertz}$ e tensão de saída $V_{in}=\SI{1}{\volt}$. A fim de obter os regimes oscilatórios mencionados na seção \ref{introducao}, os valores de $R_d$ foram variados até que se pudesse observar no osciloscópio, os regimes desejados. Também permitindo a observação da variação no transiente em decorrência da mudança de impedância. Para o caso sub-amortecido e sobreamortecido, $\SI{40}{\ohm}$ e $\SI{1}{\kilo\ohm}$, respectivamente, mostraram, de forma bem definida, os regimes em questão. 
+    
+    É importante mencionar que, de forma que a tensão de saída se estabilizasse ao redor da tensão de entrada, cumprindo os objetivos do experimento, $V_{out}$ se referiria à tensão no capacitor, já que após o transiente, o mesmo estaria carregado e produziria uma tensão próxima de $V_{in}$, segundo a teoria.
+
+    Por fim, novamente, as tensões $V_{in}$ e $V_{out}$ foram coletados utilizando o \textit{software} \texttt{Pylab}.
+
+    \input{figuras/circuitos}
+
+\pagebreak

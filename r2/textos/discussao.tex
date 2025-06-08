@@ -1,0 +1,19 @@
+\subsection{Circuitos RC}
+
+Observando o gráfico \ref{fig:integrais}, é possível verificar, em azul, os sinais representando a integração, e em vermelho os sinais originais. Por definição ($V=Q/C$), logo, a carga no capacitor é diretamente proporcional à tensão no mesmo. dessa forma, os sinais integrados representam, na realidade a carga sobre o capacitor. Considerando este fenômeno, faz sentido que os sinais estejam em fase, dado que o carregamento no capacitor ocorre devido à tensão sobre o mesmo, sendo esta promovida pelo sinal de entrada.
+
+Deve se considerar que o comportamento integrador ocorre quando altas frequências são aplicadas à filtros passa-baixas e que a frequência de corte do circuito integrador é $\omega_c = \frac{1}{R C} = \SI{4,823(4)}{\kilo\hertz}$ \cite{ref:circuitos}, Dessa forma circuito, como a frequência testada para integração foi de \SI{50}{\kilo\hertz}, o resultado obtido foi coerente com o esperado pelo modelo teórico.
+
+Já para o gráfico \ref{fig:derivadas}, a configuração de cores é análoga à anteriores, com vermelho representando os sinais de entrada e azul os sinais de saída, ou seja, os que indicam diferenciação. Os resultados obtidos mostraram-se condizentes com aqueles observados na literatura, sendo um indício do bom funcionamento do circuito empregado.
+
+Seguindo um raciocínio análogo ao anterior, um circuito apresenta comportamento diferenciador quando é um filtro passa-altas submetido à baixas frequências. Como a frequência de corte é a mesma $\omega_c=\SI{4,823(0004)}{\kilo\hertz}$, porém a frequência empregada era baixa (\SI{500}{\hertz}), pelo modelo teórico, o filtro deveria atuar como diferenciador, indicando mais uma vez que o circuito apresentava o comportamento desejado.
+
+É importante mencionar que os mesmos componentes puderam ser utilizados tanto para a integração quanto para a diferenciação devido à frequência de corte. Como $\omega_c$ possuía um valor intermediário entre as frequências que seriam integradas e diferenciadas, quando os componentes eram configurados como filtro passa-baixas, as frequências altas eram filtradas pelo circuito e quando analisadas sofriam integração. Sendo que para a diferenciação, simplesmente o corria o análogo para um filtro passa-altas.
+
+\subsection{Circuito RLC}
+
+Do mesmo modo, nos gráficos da figura \ref{fig:amortecidos}, o sinal em azul mostra a resposta temporal de um circuito ressonante amortecido para um pulso momentâneo, em vermelho. No caso, a figura trata da leitura em um capacitor, que estabiliza à voltagem de entrada, dado o tempo suficiente, fazendo possível a observação do amortecimento durante o transiente. Como o amortecimento crítico se dá, teoricamente, com $R_d = 2 \sqrt{\frac{L}{C}} = \SI{454(3)}{\ohm}$ \cite{ref:circuitos}, os outros tipos de amortecimento puderam ser observados nas outras faixas de resistência.
+
+No gráfico \ref{fig:subamortecido}, fica claro o regime de subamortecimento com a década em \SI{40}{\ohm}, em que a tensão de saída oscila poucas vezes antes de estabilizar em na tensão de entrada. Nesse caso, os componentes reativos conseguem alternar a energia armazenada entre eles, antes de o circuito ser amortecido pela resistência.
+
+Para o caso de sobreamortecimento, gráfico \ref{fig:sobreamortecido}, uma resistência de \SI{1}{\kilo\ohm} funcionou muito bem para observar o fenômeno esperado, na mesma faixa de tempo que o caso acima. Nesse regime, no entanto, o circuito nunca chega a completar uma oscilação, transitando de estado bem mais suavemente.

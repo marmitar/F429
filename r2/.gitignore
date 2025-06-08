@@ -1,0 +1,15 @@
+*.aux*
+*.bbl*
+*.blg*
+*.fdb*
+*.fls*
+*.log*
+*.out*
+*.pdf*
+*.sync*
+*.dvi*
+*.bcf*
+*.run*
+__pycache__
+.vscode
+!relatorio.pdf
