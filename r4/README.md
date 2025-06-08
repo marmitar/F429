@@ -1,3 +1,4 @@
-# Experimento 4 - Refração no Prisma
+# Experimento 4 - Prisma de Dispersão
 
 - [Relatório](relatorio.pdf)
+- [Correção](correcao.pdf)

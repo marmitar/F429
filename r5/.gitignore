@@ -14,3 +14,4 @@ __pycache__
 .vscode
 aux/*.png
 !relatorio.pdf
+!correcao.pdf

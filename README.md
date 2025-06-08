@@ -2,23 +2,23 @@
 
 ## Códigos-fonte dos Relatórios
 
-- [Filtros Passivos](https://github.com/TiagodePAlves/F429/tree/r1)
+- [Filtros Passivos](./r1)
 
-- [Circuitos Integradores e Diferenciadores](https://github.com/TiagodePAlves/F429/tree/r2)
+- [Circuitos Integradores e Diferenciadores](./r2)
 
-- [Prisma de Dispersão](https://github.com/TiagodePAlves/F429/tree/r4)
+- [Prisma de Dispersão](./r4)
 
-- [Fendas de Difração](https://github.com/TiagodePAlves/F429/tree/r5)
+- [Fendas de Difração](./r5)
 
 ## Correções
 
-- [Filtros Passivos](https://github.com/TiagodePAlves/F429/tree/master/correcao/exp1.pdf)
+- [Filtros Passivos](r1/correcao.pdf)
 
-- [Circuitos Integradores e Diferenciadores](https://github.com/TiagodePAlves/F429/tree/master/correcao/exp2.pdf)
+- [Circuitos Integradores e Diferenciadores](r2/correcao.pdf)
 
-- [Prisma de Dispersão](https://github.com/TiagodePAlves/F429/tree/master/correcao/prisma.pdf)
+- [Prisma de Dispersão](r3/correcao.pdf)
 
-- [Fendas de Difração](https://github.com/TiagodePAlves/F429/tree/master/correcao/fendas.pdf)
+- [Fendas de Difração](r4/correcao.pdf)
 
 ## Recomendações Seguidas
 
